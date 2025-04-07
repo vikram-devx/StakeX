@@ -519,7 +519,7 @@ export default function AdminPage() {
                                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                   Loading game types...
                                 </div>
-                              ) : gameTypes?.map((type) => (
+                              ) : gameTypes?.filter(type => type.gameCategory !== "teamMatch").map((type) => (
                                 <FormField
                                   key={type.id}
                                   control={createMarketForm.control}
