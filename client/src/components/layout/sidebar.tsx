@@ -192,6 +192,16 @@ export default function Sidebar({ className }: SidebarProps) {
               />
             </>
           )}
+          <Separator className="my-4 bg-[#334155]" />
+          <div className="px-3">
+            <button
+              onClick={handleLogout}
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-red-400 transition-all hover:bg-[#334155] hover:text-red-300"
+            >
+              <LogOut className="w-5 h-5" />
+              <span>Logout</span>
+            </button>
+          </div>
         </nav>
       </ScrollArea>
       <div className="mt-auto p-4">
