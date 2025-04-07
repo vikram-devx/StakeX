@@ -69,6 +69,7 @@ export default function Header() {
                   <div>
                     <p className="text-white font-medium">{user?.username}</p>
                     <p className="text-gray-400 text-sm capitalize">{user?.role}</p>
+                    <WalletIndicator />
                   </div>
                 </div>
                 <Link href="/markets" onClick={() => setMobileMenuOpen(false)}>
