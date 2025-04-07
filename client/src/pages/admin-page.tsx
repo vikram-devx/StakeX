@@ -299,211 +299,122 @@ export default function AdminPage() {
           {/* Markets Tab */}
           <TabsContent value="markets">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Create Game Type Form */}
+              {/* Create Team Match Form */}
               <Card className="bg-[#1e293b] border-[#334155] text-white">
                 <CardHeader>
-                  <CardTitle>Create Game Type</CardTitle>
+                  <CardTitle>Create Team Match</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Tabs defaultValue="standard" className="w-full mb-4">
-                    <TabsList className="w-full bg-[#334155]">
-                      <TabsTrigger value="standard" className="text-white data-[state=active]:text-primary">
-                        Standard Games
-                      </TabsTrigger>
-                      <TabsTrigger value="team-match" className="text-white data-[state=active]:text-primary">
-                        Team Match
-                      </TabsTrigger>
-                    </TabsList>
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.currentTarget);
+                    const data = {
+                      name: formData.get('name') as string,
+                      description: formData.get('description') as string,
+                      payoutMultiplier: formData.get('payoutMultiplier') as string,
+                      gameCategory: 'teamMatch',
+                      team1: formData.get('team1') as string,
+                      team2: formData.get('team2') as string,
+                      teamLogoUrl1: formData.get('teamLogoUrl1') as string || null,
+                      teamLogoUrl2: formData.get('teamLogoUrl2') as string || null,
+                    };
                     
-                    <TabsContent value="standard">
-                      <form onSubmit={(e) => {
-                        e.preventDefault();
-                        const formData = new FormData(e.currentTarget);
-                        const data = {
-                          name: formData.get('name') as string,
-                          description: formData.get('description') as string,
-                          payoutMultiplier: formData.get('payoutMultiplier') as string,
-                          gameCategory: formData.get('gameCategory') as string,
-                        };
-                        
-                        createGameTypeMutation.mutate(data);
-                      }} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name">Game Name</Label>
-                          <Input 
-                            id="name"
-                            name="name"
-                            placeholder="e.g. Single Digit"
-                            className="bg-[#334155] border-[#475569] text-white"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="description">Description</Label>
-                          <Input 
-                            id="description"
-                            name="description"
-                            placeholder="Game description"
-                            className="bg-[#334155] border-[#475569] text-white"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="payoutMultiplier">Payout Multiplier</Label>
-                          <Input 
-                            id="payoutMultiplier"
-                            name="payoutMultiplier"
-                            type="number"
-                            step="0.1"
-                            min="1"
-                            placeholder="e.g. 9.5"
-                            className="bg-[#334155] border-[#475569] text-white"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="gameCategory">Game Category</Label>
-                          <Select name="gameCategory" defaultValue="sattamatka">
-                            <SelectTrigger className="bg-[#334155] border-[#475569] text-white">
-                              <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                            <SelectContent className="bg-[#1e293b] text-white border-[#475569]">
-                              <SelectItem value="sattamatka">Satta Matka</SelectItem>
-                              <SelectItem value="cointoss">Coin Toss</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        
-                        <Button 
-                          type="submit"
-                          className="w-full bg-gradient-to-r from-primary to-pink-600"
-                          disabled={createGameTypeMutation.isPending}
-                        >
-                          {createGameTypeMutation.isPending ? (
-                            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating...</>
-                          ) : (
-                            "Create Game Type"
-                          )}
-                        </Button>
-                      </form>
-                    </TabsContent>
+                    createGameTypeMutation.mutate(data);
+                  }} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Match Name</Label>
+                      <Input 
+                        id="name"
+                        name="name"
+                        placeholder="e.g. IPL Match"
+                        className="bg-[#334155] border-[#475569] text-white"
+                        required
+                      />
+                    </div>
                     
-                    <TabsContent value="team-match">
-                      <form onSubmit={(e) => {
-                        e.preventDefault();
-                        const formData = new FormData(e.currentTarget);
-                        const data = {
-                          name: formData.get('name') as string,
-                          description: formData.get('description') as string,
-                          payoutMultiplier: formData.get('payoutMultiplier') as string,
-                          gameCategory: 'teamMatch',
-                          team1: formData.get('team1') as string,
-                          team2: formData.get('team2') as string,
-                          teamLogoUrl1: formData.get('teamLogoUrl1') as string || null,
-                          teamLogoUrl2: formData.get('teamLogoUrl2') as string || null,
-                        };
-                        
-                        createGameTypeMutation.mutate(data);
-                      }} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name">Match Name</Label>
-                          <Input 
-                            id="name"
-                            name="name"
-                            placeholder="e.g. IPL Match"
-                            className="bg-[#334155] border-[#475569] text-white"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="description">Description</Label>
-                          <Input 
-                            id="description"
-                            name="description"
-                            placeholder="Match description"
-                            className="bg-[#334155] border-[#475569] text-white"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="payoutMultiplier">Payout Multiplier</Label>
-                          <Input 
-                            id="payoutMultiplier"
-                            name="payoutMultiplier"
-                            type="number"
-                            step="0.1"
-                            min="1"
-                            placeholder="e.g. 1.9"
-                            className="bg-[#334155] border-[#475569] text-white"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="team1">Team 1 Name</Label>
-                            <Input 
-                              id="team1"
-                              name="team1"
-                              placeholder="e.g. Mumbai Indians"
-                              className="bg-[#334155] border-[#475569] text-white"
-                              required
-                            />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <Label htmlFor="team2">Team 2 Name</Label>
-                            <Input 
-                              id="team2"
-                              name="team2"
-                              placeholder="e.g. Chennai Super Kings"
-                              className="bg-[#334155] border-[#475569] text-white"
-                              required
-                            />
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="teamLogoUrl1">Team 1 Logo URL</Label>
-                            <Input 
-                              id="teamLogoUrl1"
-                              name="teamLogoUrl1"
-                              placeholder="https://example.com/logo1.png"
-                              className="bg-[#334155] border-[#475569] text-white"
-                            />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <Label htmlFor="teamLogoUrl2">Team 2 Logo URL</Label>
-                            <Input 
-                              id="teamLogoUrl2"
-                              name="teamLogoUrl2"
-                              placeholder="https://example.com/logo2.png"
-                              className="bg-[#334155] border-[#475569] text-white"
-                            />
-                          </div>
-                        </div>
-                        
-                        <Button 
-                          type="submit"
-                          className="w-full bg-gradient-to-r from-primary to-pink-600"
-                          disabled={createGameTypeMutation.isPending}
-                        >
-                          {createGameTypeMutation.isPending ? (
-                            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating...</>
-                          ) : (
-                            "Create Team Match"
-                          )}
-                        </Button>
-                      </form>
-                    </TabsContent>
-                  </Tabs>
+                    <div className="space-y-2">
+                      <Label htmlFor="description">Description</Label>
+                      <Input 
+                        id="description"
+                        name="description"
+                        placeholder="Match description"
+                        className="bg-[#334155] border-[#475569] text-white"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="payoutMultiplier">Payout Multiplier</Label>
+                      <Input 
+                        id="payoutMultiplier"
+                        name="payoutMultiplier"
+                        type="number"
+                        step="0.1"
+                        min="1"
+                        placeholder="e.g. 1.9"
+                        className="bg-[#334155] border-[#475569] text-white"
+                        required
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="team1">Team 1 Name</Label>
+                        <Input 
+                          id="team1"
+                          name="team1"
+                          placeholder="e.g. Mumbai Indians"
+                          className="bg-[#334155] border-[#475569] text-white"
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="team2">Team 2 Name</Label>
+                        <Input 
+                          id="team2"
+                          name="team2"
+                          placeholder="e.g. Chennai Super Kings"
+                          className="bg-[#334155] border-[#475569] text-white"
+                          required
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="teamLogoUrl1">Team 1 Logo URL</Label>
+                        <Input 
+                          id="teamLogoUrl1"
+                          name="teamLogoUrl1"
+                          placeholder="https://example.com/logo1.png"
+                          className="bg-[#334155] border-[#475569] text-white"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="teamLogoUrl2">Team 2 Logo URL</Label>
+                        <Input 
+                          id="teamLogoUrl2"
+                          name="teamLogoUrl2"
+                          placeholder="https://example.com/logo2.png"
+                          className="bg-[#334155] border-[#475569] text-white"
+                        />
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-primary to-pink-600"
+                      disabled={createGameTypeMutation.isPending}
+                    >
+                      {createGameTypeMutation.isPending ? (
+                        <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating...</>
+                      ) : (
+                        "Create Team Match"
+                      )}
+                    </Button>
+                  </form>
                 </CardContent>
               </Card>
               {/* Create Market Form */}
