@@ -88,10 +88,10 @@ export default function Header() {
                     <Link href="/admin?tab=users" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-white hover:text-primary text-lg block py-2">Users</span>
                     </Link>
-                    <Link href="/fund-management" onClick={() => setMobileMenuOpen(false)}>
+                    <Link href="/admin?tab=fund-management" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-white hover:text-primary text-lg block py-2">Fund Management</span>
                     </Link>
-                    <Link href="/risk-management" onClick={() => setMobileMenuOpen(false)}>
+                    <Link href="/admin?tab=risk-management" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-white hover:text-primary text-lg block py-2">Risk Management</span>
                     </Link>
                   </>
