@@ -910,6 +910,7 @@ export default function AdminPage() {
                                       <DialogTrigger asChild>
                                         <Button 
                                           size="sm" 
+                                          onClick           size="sm" 
                                           onClick={() => setSelectedMarketId(market.id)}
                                         >
                                           Declare Result
@@ -1003,11 +1004,11 @@ export default function AdminPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {bets.map((bet) => (
+                        {bets?.map((bet) => (
                           <TableRow key={bet.id} className="border-b border-[#334155]">
-                            <TableCell>{bet.userId}</TableCell>
-                            <TableCell>{bet.marketId}</TableCell>
-                            <TableCell>{bet.gameTypeId}</TableCell>
+                            <TableCell>{users?.find(u => u.id === bet.userId)?.username || bet.userId}</TableCell>
+                            <TableCell>{markets?.find(m => m.id === bet.marketId)?.name || bet.marketId}</TableCell>
+                            <TableCell>{gameTypes?.find(g => g.id === bet.gameTypeId)?.name || bet.gameTypeId}</TableCell>
                             <TableCell className="font-medium">{bet.selection}</TableCell>
                             <TableCell>₹{Number(bet.betAmount).toFixed(2)}</TableCell>
                             <TableCell className="text-[#22c55e]">₹{Number(bet.potentialWin).toFixed(2)}</TableCell>
