@@ -62,6 +62,7 @@ export default function AdminPage() {
   const { toast } = useToast();
   const [selectedMarketId, setSelectedMarketId] = useState<number | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [declaringResult, setDeclaringResult] = useState<{ marketId: number; team1: string; team2: string } | null>(null);
 
   // Redirect if not admin
   if (!user || user.role !== "admin") {
@@ -191,6 +192,7 @@ export default function AdminPage() {
       });
       setSelectedMarketId(null);
       declareResultForm.reset();
+      setDeclaringResult(null);
     },
     onError: (error: Error) => {
       toast({
@@ -287,6 +289,22 @@ export default function AdminPage() {
         return <Badge className="bg-gray-500">Pending</Badge>;
     }
   };
+
+  const getStatusVariant = (status: string): "default" | "success" | "warning" | "destructive" => {
+    switch (status) {
+      case "open":
+        return "success";
+      case "closing_soon":
+        return "warning";
+      case "closed":
+        return "destructive";
+      case "resulted":
+        return "default";
+      default:
+        return "default";
+    }
+  };
+
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0f172a] text-[#e2e8f0]">
@@ -861,104 +879,61 @@ export default function AdminPage() {
                           {teamMatchMarkets.map((market) => (
                             <TableRow key={market.id} className="border-b border-[#334155]">
                               <TableCell className="font-medium">{market.name}</TableCell>
-                              <TableCell>{getStatusBadge(market.status)}</TableCell>
                               <TableCell>
-                                {gameTypes?.filter(gt => 
-                                  gt.gameCategory === "teamMatch" && 
-                                  market.gameTypes?.includes(gt.id)
-                                ).map(gt => (
-                                  <div key={gt.id} className="text-sm">
-                                    {gt.team1} vs {gt.team2}
+                                <div className="flex items-center gap-2">
+                                  <Badge variant={getStatusVariant(market.status)}>{market.status}</Badge>
+                                  {market.status !== "resulted" && (
+                                    <Select
+                                      value={market.status}
+                                      onValueChange={(value) => handleStatusChange(market.id, value)}
+                                    >
+                                      <SelectTrigger className="w-[130px]">
+                                        <SelectValue placeholder="Change status" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="pending">Pending</SelectItem>
+                                        <SelectItem value="open">Open</SelectItem>
+                                        <SelectItem value="closing_soon">Closing Soon</SelectItem>
+                                        <SelectItem value="closed">Closed</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  )}
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                {getTeamMatchGameTypes(market.id).map(match => (
+                                  <div key={match.id} className="flex items-center gap-2 mb-2">
+                                    {match.teamLogoUrl1 && (
+                                      <img src={match.teamLogoUrl1} alt={match.team1} className="w-6 h-6" />
+                                    )}
+                                    <span>{match.team1}</span>
+                                    <span>vs</span>
+                                    {match.teamLogoUrl2 && (
+                                      <img src={match.teamLogoUrl2} alt={match.team2} className="w-6 h-6" />
+                                    )}
+                                    <span>{match.team2}</span>
                                   </div>
                                 ))}
                               </TableCell>
                               <TableCell>
-                                {market.result || 'Not declared'}
+                                {market.result || "Not declared"}
                               </TableCell>
                               <TableCell>
-                                <div className="flex space-x-2">
-                                  {market.status === "pending" && (
-                                    <Button 
-                                      size="sm" 
-                                      variant="outline" 
-                                      onClick={() => handleStatusChange(market.id, "open")}
-                                    >
-                                      Open
-                                    </Button>
-                                  )}
-
-                                  {market.status === "open" && (
-                                    <Button 
-                                      size="sm" 
-                                      variant="outline" 
-                                      onClick={() => handleStatusChange(market.id, "closing_soon")}
-                                    >
-                                      Set Closing Soon
-                                    </Button>
-                                  )}
-
-                                  {(market.status === "open" || market.status === "closing_soon") && (
-                                    <Button 
-                                      size="sm" 
-                                      variant="outline" 
-                                      onClick={() => handleStatusChange(market.id, "closed")}
-                                    >
-                                      Close
-                                    </Button>                                    )}
-
+                                <div className="flex items-center gap-2">
                                   {market.status === "closed" && !market.result && (
-                                    <Dialog>
-                                      <DialogTrigger asChild>
-                                        <Button 
-                                          size="sm" 
-                                          onClick           size="sm" 
-                                          onClick={() => setSelectedMarketId(market.id)}
-                                        >
-                                          Declare Result
-                                        </Button>
-                                      </DialogTrigger>
-                                      <DialogContent className="bg-[#1e293b] text-white">
-                                        <DialogHeader>
-                                          <DialogTitle>Declare Result - {market.name}</DialogTitle>
-                                          <DialogDescription className="text-gray-400">
-                                            Enter the final result for this market.
-                                          </DialogDescription>
-                                        </DialogHeader>
-                                        <Form {...declareResultForm}>
-                                          <form onSubmit={declareResultForm.handleSubmit(onDeclareResultSubmit)}>
-                                            <FormField
-                                              control={declareResultForm.control}
-                                              name="result"
-                                              render={({ field }) => (
-                                                <FormItem className="mb-4">
-                                                  <FormLabel>Result</FormLabel>
-                                                  <FormControl>
-                                                    <Input 
-                                                      placeholder="Enter result" 
-                                                      className="bg-[#334155] border-[#475569] text-white" 
-                                                      {...field} 
-                                                    />
-                                                  </FormControl>
-                                                  <FormMessage />
-                                                </FormItem>
-                                              )}
-                                            />
-                                            <DialogFooter>
-                                              <Button 
-                                                type="submit" 
-                                                disabled={declareResultMutation.isPending}
-                                              >
-                                                {declareResultMutation.isPending ? (
-                                                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Declaring...</>
-                                                ) : (
-                                                  "Declare Result"
-                                                )}
-                                              </Button>
-                                            </DialogFooter>
-                                          </form>
-                                        </Form>
-                                      </DialogContent>
-                                    </Dialog>
+                                    <Button
+                                      size="sm"
+                                      onClick={() => {
+                                        setSelectedMarketId(market.id);
+                                        setDeclaringResult({
+                                          marketId: market.id,
+                                          team1: getTeamMatchGameTypes(market.id)[0].team1 || '',
+                                          team2: getTeamMatchGameTypes(market.id)[0].team2 || ''
+                                        });
+                                      }}
+                                    >
+                                      Declare Winner
+                                    </Button>
                                   )}
                                 </div>
                               </TableCell>
