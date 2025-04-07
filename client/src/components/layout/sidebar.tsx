@@ -184,6 +184,12 @@ export default function Sidebar({ className }: SidebarProps) {
                 title="Settings"
                 active={isActive("/admin/settings")}
               />
+              <SidebarNavItem
+                href="/transactions"
+                icon={<Clock className="w-5 h-5" />}
+                title="Transactions"
+                active={isActive("/transactions")}
+              />
             </>
           )}
         </nav>
