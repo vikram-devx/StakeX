@@ -11,6 +11,7 @@ import MarketsPage from "@/pages/markets-page";
 import MyBetsPage from "@/pages/my-bets-page";
 import ResultsPage from "@/pages/results-page";
 import AdminPage from "@/pages/admin-page";
+import TeamMatchesPage from "@/pages/team-matches-page";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/" component={HomePage} />
       <ProtectedRoute path="/markets" component={MarketsPage} />
+      <ProtectedRoute path="/team-matches" component={TeamMatchesPage} />
       <ProtectedRoute path="/my-bets" component={MyBetsPage} />
       <ProtectedRoute path="/results" component={ResultsPage} />
       <ProtectedRoute path="/admin" component={AdminPage} />

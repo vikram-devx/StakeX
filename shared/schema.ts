@@ -66,7 +66,11 @@ export const gameTypes = pgTable("game_types", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   payoutMultiplier: decimal("payout_multiplier", { precision: 10, scale: 2 }).notNull(),
-  gameCategory: text("game_category").notNull(), // sattamatka, cointoss
+  gameCategory: text("game_category").notNull(), // sattamatka, cointoss, teamMatch
+  team1: text("team1"),
+  team2: text("team2"),
+  teamLogoUrl1: text("team_logo_url1"),
+  teamLogoUrl2: text("team_logo_url2"),
 });
 
 export const insertGameTypeSchema = createInsertSchema(gameTypes).pick({
@@ -74,6 +78,10 @@ export const insertGameTypeSchema = createInsertSchema(gameTypes).pick({
   description: true,
   payoutMultiplier: true,
   gameCategory: true,
+  team1: true,
+  team2: true,
+  teamLogoUrl1: true,
+  teamLogoUrl2: true,
 });
 
 export type InsertGameType = z.infer<typeof insertGameTypeSchema>;

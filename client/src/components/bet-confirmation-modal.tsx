@@ -14,9 +14,10 @@ interface BetConfirmationModalProps {
   open: boolean;
   onClose: () => void;
   bet: Bet;
+  onConfirm?: () => void;
 }
 
-export default function BetConfirmationModal({ open, onClose, bet }: BetConfirmationModalProps) {
+export default function BetConfirmationModal({ open, onClose, bet, onConfirm }: BetConfirmationModalProps) {
   const [_, navigate] = useLocation();
 
   const { data: market } = useQuery<Market>({
@@ -81,7 +82,12 @@ export default function BetConfirmationModal({ open, onClose, bet }: BetConfirma
           </Button>
           <Button 
             className="flex-1"
-            onClick={onClose}
+            onClick={() => {
+              if (onConfirm) {
+                onConfirm();
+              }
+              onClose();
+            }}
           >
             Continue
           </Button>

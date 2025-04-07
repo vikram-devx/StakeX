@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 
 interface GameTabsProps {
-  activeTab: "markets" | "my-bets" | "results";
+  activeTab: "markets" | "team-matches" | "my-bets" | "results";
 }
 
 export default function GameTabs({ activeTab }: GameTabsProps) {
@@ -16,6 +16,15 @@ export default function GameTabs({ activeTab }: GameTabsProps) {
                 : "text-gray-400 hover:text-gray-300"
             }`}>
               Markets
+            </a>
+          </Link>
+          <Link href="/team-matches">
+            <a className={`mr-8 py-4 px-1 text-sm font-medium ${
+              activeTab === "team-matches" 
+                ? "text-primary border-b-2 border-primary" 
+                : "text-gray-400 hover:text-gray-300"
+            }`}>
+              Team Matches
             </a>
           </Link>
           <Link href="/my-bets">
