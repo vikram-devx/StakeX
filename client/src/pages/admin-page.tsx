@@ -910,7 +910,7 @@ export default function AdminPage() {
                                       <DialogTrigger asChild>
                                         <Button 
                                           size="sm" 
-                                          onClick={() => setSelectedMarketId(market.id)}
+                                          onClick={() => setSelectedMarketId(market.id)}>
                                         >
                                           Declare Result
                                         </Button>
@@ -992,7 +992,7 @@ export default function AdminPage() {
                     <Table>
                       <TableHeader className="bg-[#334155]">
                         <TableRow>
-                          <TableHead className="text-white">User ID</TableHead>
+                          <TableHead className="text-white">User</TableHead>
                           <TableHead className="text-white">Market</TableHead>
                           <TableHead className="text-white">Game Type</TableHead>
                           <TableHead className="text-white">Selection</TableHead>
