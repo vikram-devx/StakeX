@@ -13,8 +13,6 @@ import ResultsPage from "@/pages/results-page";
 import AdminPage from "@/pages/admin-page";
 import TeamMatchesPage from "@/pages/team-matches-page";
 import TransactionsPage from "@/pages/transactions-page";
-import UsersPage from "@/pages/users-page"; // Added import for UsersPage
-
 
 function Router() {
   return (
@@ -27,7 +25,6 @@ function Router() {
       <ProtectedRoute path="/results" component={ResultsPage} />
       <ProtectedRoute path="/transactions" component={TransactionsPage} />
       <ProtectedRoute path="/admin" component={AdminPage} />
-      <ProtectedRoute path="/user-management" component={UsersPage} /> {/* Added route for user management */}
       <Route component={NotFound} />
     </Switch>
   );
