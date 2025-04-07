@@ -12,39 +12,13 @@ export default function TeamMatchesPage() {
   const [selectedMarket, setSelectedMarket] = useState<Market | null>(null);
   const [showMatchModal, setShowMatchModal] = useState(false);
 
-  const { data: markets, isLoading } = useQuery<Market[]>({
-    queryKey: ["/api/markets"],
-    queryFn: async () => {
-      const response = await fetch('/api/markets');
-      if (!response.ok) throw new Error('Failed to fetch markets');
-      return response.json();
-    }
-  });
-
-  const { data: allGameTypes, isLoading: loadingGameTypes } = useQuery<GameType[]>({
+  const { data: teamMatches, isLoading } = useQuery<GameType[]>({
     queryKey: ["/api/gametypes/teamMatch"],
     queryFn: async () => {
       const response = await fetch('/api/gametypes?category=teamMatch');
-      if (!response.ok) throw new Error('Failed to fetch team match game types');
+      if (!response.ok) throw new Error('Failed to fetch team matches');
       return response.json();
-    },
-    enabled: !!markets
-  });
-
-  // Filter markets that have team match game types
-  const teamMatchMarkets = markets?.filter(market => {
-    // For resulted markets, check if they have a result and it's a team name
-    if (market.status === "resulted" && market.result) {
-      return allGameTypes?.some(gt => gt.team1 === market.result || gt.team2 === market.result);
     }
-    
-    // For other markets, check if they have team match game types
-    return market.gameTypes && Array.isArray(market.gameTypes) && 
-      market.gameTypes.length > 0 && 
-      allGameTypes?.some(gameType => 
-        gameType.gameCategory === "teamMatch" && 
-        (market.gameTypes as unknown as number[]).includes(gameType.id)
-      );
   });
 
   const handlePlayMatch = (market: Market) => {
@@ -112,35 +86,20 @@ export default function TeamMatchesPage() {
         <p className="text-gray-400">Bet on your favorite sports teams and win big!</p>
       </div>
 
-      {isLoading || loadingGameTypes ? (
+      {isLoading ? (
         <div className="flex justify-center items-center py-20">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
         </div>
-      ) : teamMatchMarkets && teamMatchMarkets.length > 0 ? (
+      ) : teamMatches && teamMatches.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {teamMatchMarkets.map(market => (
-            <Card key={market.id} className="market-card bg-gradient-to-b from-[#1e293b] to-[#0f172a] border border-[#334155] rounded-md overflow-hidden hover:border-[#94a3b8] transition-colors shadow-lg hover:shadow-xl hover-scale">
+          {teamMatches.map(match => (
+            <Card key={match.id} className="match-card bg-gradient-to-b from-[#1e293b] to-[#0f172a] border border-[#334155] rounded-md overflow-hidden hover:border-[#94a3b8] transition-colors shadow-lg hover:shadow-xl hover-scale">
               <div className="w-full h-40 overflow-hidden relative">
-                {market.bannerImage ? (
-                  <>
-                    <img 
-                      src={market.bannerImage} 
-                      alt={market.name} 
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Fallback if image fails to load
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] to-transparent"></div>
-                  </>
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-r from-primary/20 to-pink-600/20 flex items-center justify-center">
-                    <div className="text-2xl font-bold text-white">Team Match</div>
-                  </div>
-                )}
+                <div className="w-full h-full bg-gradient-to-r from-primary/20 to-pink-600/20 flex items-center justify-center">
+                  <div className="text-2xl font-bold text-white">{match.name}</div>
+                </div>
                 <div className="absolute top-2 right-2">
-                  {getStatusBadge(market.status)}
+                  <Badge className="bg-[#22c55e]">Live</Badge>
                 </div>
                 
                 {/* Show teams in banner */}
