@@ -1,18 +1,19 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Market, GameType } from "@shared/schema";
+import { GameType } from "@shared/schema";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Calendar, Clock } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import GameTabs from "@/components/game-tabs";
 import TeamMatchModal from "@/components/team-match-modal";
-import { format } from "date-fns";
 
 export default function TeamMatchesPage() {
   const [selectedMatch, setSelectedMatch] = useState<GameType | null>(null);
   const [showMatchModal, setShowMatchModal] = useState(false);
 
+  // Only fetch active team matches
   const { data: teamMatches, isLoading } = useQuery<GameType[]>({
     queryKey: ["/api/gametypes/teamMatch"],
     queryFn: async () => {
@@ -70,7 +71,12 @@ export default function TeamMatchesPage() {
                   <div className="flex items-center px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
                     {match.teamLogoUrl1 && (
                       <div className="w-6 h-6 mr-1">
-                        <img src={match.teamLogoUrl1} alt={match.team1 || ''} className="w-full h-full object-contain" />
+                        <img 
+                          src={match.teamLogoUrl1} 
+                          alt={match.team1 || ''} 
+                          className="w-full h-full object-contain"
+                          onError={(e) => e.currentTarget.style.display = 'none'}
+                        />
                       </div>
                     )}
                     <div className="text-xs font-medium text-white">{match.team1}</div>
@@ -81,7 +87,12 @@ export default function TeamMatchesPage() {
                   <div className="flex items-center px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
                     {match.teamLogoUrl2 && (
                       <div className="w-6 h-6 mr-1">
-                        <img src={match.teamLogoUrl2} alt={match.team2 || ''} className="w-full h-full object-contain" />
+                        <img 
+                          src={match.teamLogoUrl2} 
+                          alt={match.team2 || ''} 
+                          className="w-full h-full object-contain"
+                          onError={(e) => e.currentTarget.style.display = 'none'}
+                        />
                       </div>
                     )}
                     <div className="text-xs font-medium text-white">{match.team2}</div>
