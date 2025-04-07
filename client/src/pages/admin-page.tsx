@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2, ExternalLink, Clock, Award, Check, X, AlertCircle } from "lucide-react";
+import { Loader2, ExternalLink, Clock, Award, Check, X, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 
