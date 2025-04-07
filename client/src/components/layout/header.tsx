@@ -55,12 +55,17 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="bg-[#1e293b] text-white">
               <div className="flex flex-col space-y-4 mt-8">
-                <Link href="/markets" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="text-white hover:text-primary text-lg block py-2">Markets</span>
-                </Link>
-                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="text-white hover:text-primary text-lg block py-2">Home</span>
-                </Link>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-[#ec4899] flex items-center justify-center">
+                    <span className="text-white text-lg font-semibold">
+                      {user?.username.substring(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">{user?.username}</p>
+                    <p className="text-gray-400 text-sm capitalize">{user?.role}</p>
+                  </div>
+                </div>
                 <Link href="/markets" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">Markets</span>
                 </Link>
@@ -70,9 +75,8 @@ export default function Header() {
                 <Link href="/results" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">Results</span>
                 </Link>
-                <div className="my-2 border-t border-gray-700" />
-                <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
-                  <span className="text-white hover:text-primary text-lg block py-2">Profile</span>
+                <Link href="/my-bets" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="text-white hover:text-primary text-lg block py-2">Transactions</span>
                 </Link>
                 {user?.role === "admin" && (
                   <>
