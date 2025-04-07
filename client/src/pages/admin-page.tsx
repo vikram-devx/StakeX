@@ -1056,6 +1056,8 @@ export default function AdminPage() {
                           <TableHead className="text-white">Username</TableHead>
                           <TableHead className="text-white">Balance</TableHead>
                           <TableHead className="text-white">Role</TableHead>
+                          <TableHead className="text-white">Status</TableHead>
+                          <TableHead className="text-white">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -1070,6 +1072,89 @@ export default function AdminPage() {
                               ) : (
                                 <Badge className="bg-primary">User</Badge>
                               )}
+                            </TableCell>
+                            <TableCell>
+                              {user.isBanned ? (
+                                <Badge variant="destructive">Banned</Badge>
+                              ) : (
+                                <Badge variant="outline">Active</Badge>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex space-x-2">
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button size="sm" variant="outline">Edit</Button>
+                                  </DialogTrigger>
+                                  <DialogContent className="bg-[#1e293b] text-white">
+                                    <DialogHeader>
+                                      <DialogTitle>Edit User: {user.username}</DialogTitle>
+                                      <DialogDescription>
+                                        Update user details and manage funds
+                                      </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="space-y-4 py-4">
+                                      <div className="space-y-2">
+                                        <Label>Username</Label>
+                                        <Input 
+                                          defaultValue={user.username}
+                                          className="bg-[#334155] border-[#475569] text-white"
+                                        />
+                                      </div>
+                                      <div className="space-y-2">
+                                        <Label>New Password</Label>
+                                        <Input 
+                                          type="password"
+                                          placeholder="Enter new password"
+                                          className="bg-[#334155] border-[#475569] text-white"
+                                        />
+                                      </div>
+                                      <div className="space-y-2">
+                                        <Label>Fund Adjustment</Label>
+                                        <div className="flex space-x-2">
+                                          <Input 
+                                            type="number"
+                                            placeholder="Amount"
+                                            className="bg-[#334155] border-[#475569] text-white"
+                                          />
+                                          <Select defaultValue="deposit">
+                                            <SelectTrigger className="w-[120px]">
+                                              <SelectValue placeholder="Type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="deposit">Deposit</SelectItem>
+                                              <SelectItem value="withdraw">Withdraw</SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <DialogFooter>
+                                      <Button variant="outline" onClick={() => {}}>
+                                        Save Changes
+                                      </Button>
+                                    </DialogFooter>
+                                  </DialogContent>
+                                </Dialog>
+
+                                {!user.isBanned ? (
+                                  <Button 
+                                    size="sm" 
+                                    variant="destructive"
+                                    onClick={() => {}}
+                                  >
+                                    Ban
+                                  </Button>
+                                ) : (
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline"
+                                    onClick={() => {}}
+                                  >
+                                    Unban
+                                  </Button>
+                                )}
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))}
