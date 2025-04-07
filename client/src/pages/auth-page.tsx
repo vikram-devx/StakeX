@@ -1,3 +1,4 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -28,13 +29,7 @@ const registerSchema = insertUserSchema.extend({
 export default function AuthPage() {
   const { loginMutation, registerMutation, user } = useAuth();
   const [location, navigate] = useLocation();
-
-  // Redirect if user is already logged in
-  if (user) {
-    navigate("/");
-    return null;
-  }
-
+  
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -51,6 +46,20 @@ export default function AuthPage() {
       confirmPassword: "",
     },
   });
+  
+  // Redirect if user is already logged in - but AFTER all hooks have been called
+  if (user) {
+    // Use useEffect for navigation to avoid React warnings
+    // This avoids the navigate during render issue
+    React.useEffect(() => {
+      navigate("/");
+    }, [navigate, user]);
+    
+    // Return a loading state or empty component instead of null
+    return <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    </div>;
+  }
 
   const onLoginSubmit = async (values: z.infer<typeof loginSchema>) => {
     await loginMutation.mutateAsync(values);
