@@ -66,6 +66,7 @@ export default function MyBetsPage() {
                         <TableHead className="text-white">Selection</TableHead>
                         <TableHead className="text-white">Amount</TableHead>
                         <TableHead className="text-white">Potential Win</TableHead>
+                        <TableHead className="text-white">Result</TableHead>
                         <TableHead className="text-white">Date</TableHead>
                         <TableHead className="text-white">Status</TableHead>
                       </TableRow>
@@ -78,6 +79,7 @@ export default function MyBetsPage() {
                           <TableCell className="font-medium">{bet.selection}</TableCell>
                           <TableCell>₹{Number(bet.betAmount).toFixed(2)}</TableCell>
                           <TableCell className="text-[#22c55e]">₹{Number(bet.potentialWin).toFixed(2)}</TableCell>
+                          <TableCell>{bet.market.result || 'Pending'}</TableCell>
                           <TableCell>{format(new Date(bet.placedAt), 'dd/MM/yyyy HH:mm')}</TableCell>
                           <TableCell>{getBetStatusBadge(bet.status)}</TableCell>
                         </TableRow>
