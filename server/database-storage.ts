@@ -75,7 +75,7 @@ export class DatabaseStorage implements IStorage {
       .insert(markets)
       .values({
         name: marketData.name,
-        status: "pending",
+        status: "open", // Changed from "pending" to "open" so markets appear in active list immediately
         openingTime: marketData.openingTime,
         closingTime: marketData.closingTime,
         createdBy: marketData.createdBy,

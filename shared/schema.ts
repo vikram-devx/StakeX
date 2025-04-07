@@ -28,7 +28,7 @@ export const markets = pgTable("markets", {
   closingTime: timestamp("closing_time").notNull(),
   createdBy: integer("created_by").notNull(),
   gameTypes: json("game_types").notNull(), // Array of game type ids
-  result: text("result").default(null),
+  result: text("result"),
   resultDeclaredAt: timestamp("result_declared_at"),
   resultDeclaredBy: integer("result_declared_by"),
 });
