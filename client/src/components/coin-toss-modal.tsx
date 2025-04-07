@@ -116,9 +116,9 @@ export default function CoinTossModal({ open, onClose, market, gameTypes }: Coin
       userId: user.id,
       marketId: market.id,
       gameTypeId: coinTossGameType.id,
-      betAmount,
+      betAmount: betAmount.toString(), // Convert to string for Drizzle decimal column
       selection: selectedSide,
-      potentialWin
+      potentialWin: potentialWin.toString() // Convert to string for Drizzle decimal column
     });
   };
 

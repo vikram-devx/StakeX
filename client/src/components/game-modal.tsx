@@ -117,9 +117,9 @@ export default function GameModal({ open, onClose, market, gameTypes }: GameModa
       userId: user.id,
       marketId: market.id,
       gameTypeId: activeGame.id,
-      betAmount,
+      betAmount: betAmount.toString(), // Convert to string for Drizzle decimal column
       selection: selectedNumber,
-      potentialWin
+      potentialWin: potentialWin.toString() // Convert to string for Drizzle decimal column
     });
   };
 
