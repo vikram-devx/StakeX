@@ -109,7 +109,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Game types routes
   app.get("/api/gametypes", isAuthenticated, async (req, res) => {
     try {
+      const category = req.query.category as string;
       const gameTypes = await storage.getAllGameTypes();
+      
+      if (category) {
+        const filtered = gameTypes.filter(gt => gt.gameCategory === category);
+        return res.json(filtered);
+      }
+      
       res.json(gameTypes);
     } catch (err) {
       res.status(500).json({ message: (err as Error).message });
