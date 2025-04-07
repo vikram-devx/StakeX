@@ -75,7 +75,7 @@ export default function Header() {
                 <Link href="/results" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">Results</span>
                 </Link>
-                <Link href="/my-bets" onClick={() => setMobileMenuOpen(false)}>
+                <Link href="/transactions" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">Transactions</span>
                 </Link>
                 {user?.role === "admin" && (
