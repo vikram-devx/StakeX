@@ -47,15 +47,15 @@ export default function AuthPage() {
     },
   });
   
-  // Redirect if user is already logged in - but AFTER all hooks have been called
-  if (user) {
-    // Use useEffect for navigation to avoid React warnings
-    // This avoids the navigate during render issue
-    React.useEffect(() => {
+  // Move useEffect outside the conditional to avoid breaking React's rules of hooks
+  React.useEffect(() => {
+    if (user) {
       navigate("/");
-    }, [navigate, user]);
-    
-    // Return a loading state or empty component instead of null
+    }
+  }, [navigate, user]);
+  
+  // Show loading state while redirecting
+  if (user) {
     return <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
       <Loader2 className="h-8 w-8 animate-spin text-primary" />
     </div>;

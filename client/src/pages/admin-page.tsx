@@ -103,7 +103,9 @@ export default function AdminPage() {
       return await res.json();
     },
     onSuccess: () => {
+      // Invalidate both admin and user-facing market lists
       queryClient.invalidateQueries({ queryKey: ["/api/markets/all"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/markets"] });
       toast({
         title: "Market created",
         description: "The market has been created successfully",
@@ -125,7 +127,9 @@ export default function AdminPage() {
       return await res.json();
     },
     onSuccess: () => {
+      // Invalidate both admin and user-facing market lists
       queryClient.invalidateQueries({ queryKey: ["/api/markets/all"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/markets"] });
       toast({
         title: "Status updated",
         description: "The market status has been updated",
@@ -146,7 +150,9 @@ export default function AdminPage() {
       return await res.json();
     },
     onSuccess: () => {
+      // Invalidate all related queries
       queryClient.invalidateQueries({ queryKey: ["/api/markets/all"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/markets"] });
       queryClient.invalidateQueries({ queryKey: ["/api/bets"] });
       toast({
         title: "Result declared",
