@@ -999,6 +999,7 @@ export default function AdminPage() {
                           <TableHead className="text-white">Selection</TableHead>
                           <TableHead className="text-white">Amount</TableHead>
                           <TableHead className="text-white">Potential Win</TableHead>
+                          <TableHead className="text-white">Result</TableHead>
                           <TableHead className="text-white">Status</TableHead>
                           <TableHead className="text-white">Date</TableHead>
                         </TableRow>
@@ -1012,6 +1013,9 @@ export default function AdminPage() {
                             <TableCell className="font-medium">{bet.selection}</TableCell>
                             <TableCell>₹{Number(bet.betAmount).toFixed(2)}</TableCell>
                             <TableCell className="text-[#22c55e]">₹{Number(bet.potentialWin).toFixed(2)}</TableCell>
+                            <TableCell>
+                              {markets?.find(m => m.id === bet.marketId)?.result || 'Pending'}
+                            </TableCell>
                             <TableCell>
                               {bet.status === "won" ? (
                                 <Check className="h-5 w-5 text-[#22c55e]" />
