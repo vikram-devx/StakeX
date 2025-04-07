@@ -179,6 +179,18 @@ export default function Sidebar({ className }: SidebarProps) {
                 active={isActive("/admin") && location.search.includes("tab=users")}
               />
               <SidebarNavItem
+                href="/admin/fund-management"
+                icon={<BarChartHorizontal className="w-5 h-5" />}
+                title="Fund Management"
+                active={isActive("/admin/fund-management")}
+              />
+              <SidebarNavItem
+                href="/admin/risk-management"
+                icon={<ShieldCheck className="w-5 h-5" />}
+                title="Risk Management"
+                active={isActive("/admin/risk-management")}
+              />
+              <SidebarNavItem
                 href="/admin/settings"
                 icon={<Settings className="w-5 h-5" />}
                 title="Settings"
