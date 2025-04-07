@@ -827,28 +827,6 @@ export default function AdminPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="teamLogoUrl1">Team 1 Logo URL</Label>
-                        <Input 
-                          id="teamLogoUrl1"
-                          name="teamLogoUrl1"
-                          placeholder="https://example.com/logo1.png"
-                          className="bg-[#334155] border-[#475569] text-white"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="teamLogoUrl2">Team 2 Logo URL</Label>
-                        <Input 
-                          id="teamLogoUrl2"
-                          name="teamLogoUrl2"
-                          placeholder="https://example.com/logo2.png"
-                          className="bg-[#334155] border-[#475569] text-white"
-                        />
-                      </div>
-                    </div>
-
                     <Button 
                       type="submit"
                       className="w-full bg-gradient-to-r from-primary to-pink-600"

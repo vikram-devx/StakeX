@@ -67,33 +67,13 @@ export default function TeamMatchesPage() {
                 </div>
 
                 <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center">
-                  <div className="flex items-center px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
-                    {match.teamLogoUrl1 && (
-                      <div className="w-6 h-6 mr-1">
-                        <img 
-                          src={match.teamLogoUrl1} 
-                          alt={match.team1 || ''} 
-                          className="w-full h-full object-contain"
-                          onError={(e) => e.currentTarget.style.display = 'none'}
-                        />
-                      </div>
-                    )}
+                  <div className="px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
                     <div className="text-xs font-medium text-white">{match.team1}</div>
                   </div>
 
                   <div className="text-xs font-bold text-white px-1">VS</div>
 
-                  <div className="flex items-center px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
-                    {match.teamLogoUrl2 && (
-                      <div className="w-6 h-6 mr-1">
-                        <img 
-                          src={match.teamLogoUrl2} 
-                          alt={match.team2 || ''} 
-                          className="w-full h-full object-contain"
-                          onError={(e) => e.currentTarget.style.display = 'none'}
-                        />
-                      </div>
-                    )}
+                  <div className="px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
                     <div className="text-xs font-medium text-white">{match.team2}</div>
                   </div>
                 </div>
