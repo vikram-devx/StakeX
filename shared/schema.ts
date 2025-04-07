@@ -33,13 +33,19 @@ export const markets = pgTable("markets", {
   resultDeclaredBy: integer("result_declared_by"),
 });
 
-export const insertMarketSchema = createInsertSchema(markets).pick({
-  name: true,
-  openingTime: true,
-  closingTime: true,
-  createdBy: true,
-  gameTypes: true,
-});
+export const insertMarketSchema = createInsertSchema(markets)
+  .pick({
+    name: true,
+    openingTime: true,
+    closingTime: true,
+    createdBy: true,
+    gameTypes: true,
+  })
+  .extend({
+    // Override the timestamp fields to accept strings and convert to dates
+    openingTime: z.string().or(z.date()).transform(val => new Date(val)),
+    closingTime: z.string().or(z.date()).transform(val => new Date(val)),
+  });
 
 export type InsertMarket = z.infer<typeof insertMarketSchema>;
 export type Market = typeof markets.$inferSelect;
