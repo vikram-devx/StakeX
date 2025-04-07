@@ -1,6 +1,6 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
-import { setupAuth } from "./auth";
+import { setupAuth, hashPassword } from "./auth";
 import { storage } from "./storage";
 import { insertMarketSchema, insertBetSchema, insertGameTypeSchema } from "@shared/schema";
 import { z } from "zod";
@@ -286,10 +286,13 @@ async function initializeData() {
     // Create users if none exist
     const users = await storage.getAllUsers();
     if (users.length === 0) {
+      // Hash the password using our imported function
+      const hashedPassword = await hashPassword("password");
+      
       // Create admin user with high balance
       const admin = await storage.createUser({
         username: "admin",
-        password: "$2b$10$X7tEhkJ6Kvs0YlhzpKl5D.PGQmzuZ39rBzHYFBRFPcxbDKGOkLJXi", // 'password'
+        password: hashedPassword,
         role: "admin"
       });
       await storage.updateUserBalance(admin.id, 50000); // High balance for admin
@@ -297,7 +300,7 @@ async function initializeData() {
       // Create regular test user
       const testUser = await storage.createUser({
         username: "testuser",
-        password: "$2b$10$X7tEhkJ6Kvs0YlhzpKl5D.PGQmzuZ39rBzHYFBRFPcxbDKGOkLJXi", // 'password'
+        password: hashedPassword,
         role: "user"
       });
       await storage.updateUserBalance(testUser.id, 5000); // Good amount for testing
