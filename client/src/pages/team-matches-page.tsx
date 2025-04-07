@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Market, GameType } from "@shared/schema";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Loader2, Calendar, Clock } from "lucide-react";
 import GameTabs from "@/components/game-tabs";
 import TeamMatchModal from "@/components/team-match-modal";
@@ -90,9 +91,9 @@ export default function TeamMatchesPage() {
         <div className="flex justify-center items-center py-20">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
         </div>
-      ) : teamMatches && teamMatches.length > 0 ? (
+      ) : teamMatches && teamMatches.filter(match => match.gameCategory === "teamMatch").length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {teamMatches.map(match => (
+          {teamMatches.filter(match => match.gameCategory === "teamMatch").map(match => (
             <Card key={match.id} className="match-card bg-gradient-to-b from-[#1e293b] to-[#0f172a] border border-[#334155] rounded-md overflow-hidden hover:border-[#94a3b8] transition-colors shadow-lg hover:shadow-xl hover-scale">
               <div className="w-full h-40 overflow-hidden relative">
                 <div className="w-full h-full bg-gradient-to-r from-primary/20 to-pink-600/20 flex items-center justify-center">
