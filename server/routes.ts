@@ -249,28 +249,28 @@ async function initializeData() {
       await storage.createGameType({
         name: "Jodi",
         description: "Choose a two-digit number (00-99). Win if your number matches the result.",
-        payoutMultiplier: 90,
+        payoutMultiplier: "90",
         gameCategory: "sattamatka"
       });
 
       await storage.createGameType({
         name: "Hurf",
         description: "Choose a single digit (0-9). Win if your digit appears in the result.",
-        payoutMultiplier: 9,
+        payoutMultiplier: "9",
         gameCategory: "sattamatka"
       });
 
       await storage.createGameType({
         name: "Cross",
         description: "Choose two digits. Win if both digits appear in the result in any order.",
-        payoutMultiplier: 15,
+        payoutMultiplier: "15",
         gameCategory: "sattamatka"
       });
 
       await storage.createGameType({
         name: "Odd-Even",
         description: "Choose whether the result will be odd or even.",
-        payoutMultiplier: 1.9,
+        payoutMultiplier: "1.9",
         gameCategory: "sattamatka"
       });
 
@@ -278,19 +278,80 @@ async function initializeData() {
       await storage.createGameType({
         name: "Heads/Tails",
         description: "Choose either heads or tails. Win if your selection matches the result.",
-        payoutMultiplier: 1.9,
+        payoutMultiplier: "1.9",
         gameCategory: "cointoss"
       });
     }
 
-    // Create admin user if no users exist
+    // Create users if none exist
     const users = await storage.getAllUsers();
     if (users.length === 0) {
-      await storage.createUser({
+      // Create admin user with high balance
+      const admin = await storage.createUser({
         username: "admin",
         password: "$2b$10$X7tEhkJ6Kvs0YlhzpKl5D.PGQmzuZ39rBzHYFBRFPcxbDKGOkLJXi", // 'password'
         role: "admin"
       });
+      await storage.updateUserBalance(admin.id, 50000); // High balance for admin
+
+      // Create regular test user
+      const testUser = await storage.createUser({
+        username: "testuser",
+        password: "$2b$10$X7tEhkJ6Kvs0YlhzpKl5D.PGQmzuZ39rBzHYFBRFPcxbDKGOkLJXi", // 'password'
+        role: "user"
+      });
+      await storage.updateUserBalance(testUser.id, 5000); // Good amount for testing
+      
+      // Create test markets
+      const gameTypesList = await storage.getAllGameTypes();
+      const gameTypeIds = gameTypesList.map(gt => gt.id);
+      
+      // Mumbai Matka - open market (Satta Matka games)
+      const sattaGameTypes = gameTypesList.filter(gt => gt.gameCategory === "sattamatka").map(gt => gt.id);
+      const now = new Date();
+      const closingTime1 = new Date(now);
+      closingTime1.setHours(now.getHours() + 3); // Closes in 3 hours
+      
+      await storage.createMarket({
+        name: "Mumbai Matka",
+        openingTime: now,
+        closingTime: closingTime1,
+        createdBy: admin.id,
+        gameTypes: sattaGameTypes,
+      });
+      
+      // Delhi Matka - open market (Satta Matka games)
+      const closingTime2 = new Date(now);
+      closingTime2.setHours(now.getHours() + 6); // Closes in 6 hours
+      
+      await storage.createMarket({
+        name: "Delhi Matka",
+        openingTime: now,
+        closingTime: closingTime2,
+        createdBy: admin.id,
+        gameTypes: sattaGameTypes,
+      });
+      
+      // Coin Toss Market - open market (Coin Toss games)
+      const coinTossGameType = gameTypesList.find(gt => gt.gameCategory === "cointoss");
+      if (coinTossGameType) {
+        const closingTime3 = new Date(now);
+        closingTime3.setHours(now.getHours() + 4); // Closes in 4 hours
+        
+        await storage.createMarket({
+          name: "Coin Toss Premier",
+          openingTime: now,
+          closingTime: closingTime3,
+          createdBy: admin.id,
+          gameTypes: [coinTossGameType.id],
+        });
+      }
+      
+      // Set markets as open
+      const markets = await storage.getAllMarkets();
+      for (const market of markets) {
+        await storage.updateMarketStatus(market.id, "open");
+      }
     }
   } catch (error) {
     console.error("Error initializing data:", error);
