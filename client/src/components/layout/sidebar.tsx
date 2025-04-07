@@ -38,8 +38,8 @@ const SidebarNavItem = ({
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-gray-50",
-          active && "bg-primary/10 text-primary font-medium"
+          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-gray-300 transition-all hover:bg-[#334155] hover:text-white",
+          active && "bg-primary/10 text-primary font-medium shadow-sm"
         )}
       >
         {icon}
@@ -52,8 +52,8 @@ const SidebarNavItem = ({
     <Link href={href}>
       <a
         className={cn(
-          "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 transition-all hover:text-gray-50",
-          active && "bg-primary/10 text-primary font-medium"
+          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-gray-300 transition-all hover:bg-[#334155] hover:text-white",
+          active && "bg-primary/10 text-primary font-medium shadow-sm"
         )}
       >
         {icon}
@@ -125,7 +125,7 @@ export default function Sidebar({ className }: SidebarProps) {
             title="Results"
             active={isActive("/results")}
           />
-          
+
           {user.role === "admin" && (
             <>
               <Separator className="my-4 bg-[#334155]" />
