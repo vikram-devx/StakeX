@@ -910,7 +910,7 @@ export default function AdminPage() {
                                       <DialogTrigger asChild>
                                         <Button 
                                           size="sm" 
-                                          onClick={() => setSelectedMarketId(market.id)}>
+                                          onClick={() => setSelectedMarketId(market.id)}
                                         >
                                           Declare Result
                                         </Button>
