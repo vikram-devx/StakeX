@@ -29,13 +29,13 @@ export default function MarketCard({ market }: MarketCardProps) {
     switch(status) {
       case "open":
         return (
-          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-[#22c55e]/20 text-[#22c55e]">
+          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-[#22c55e]/20 text-[#22c55e] pulse-effect">
             Open
           </span>
         );
       case "closing_soon":
         return (
-          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-[#f59e0b]/20 text-[#f59e0b]">
+          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-[#f59e0b]/20 text-[#f59e0b] pulse-effect" style={{animation: "pulse 1s infinite"}}>
             Closing Soon
           </span>
         );
@@ -43,6 +43,12 @@ export default function MarketCard({ market }: MarketCardProps) {
         return (
           <span className="px-2 py-1 text-xs font-semibold rounded-full bg-[#ef4444]/20 text-[#ef4444]">
             Closed
+          </span>
+        );
+      case "resulted":
+        return (
+          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-[#3b82f6]/20 text-[#3b82f6]">
+            Resulted
           </span>
         );
       default:
@@ -72,7 +78,7 @@ export default function MarketCard({ market }: MarketCardProps) {
 
   return (
     <>
-      <Card className="market-card bg-[#1e293b] rounded-lg overflow-hidden shadow-lg transition-transform hover:translate-y-[-2px] hover:shadow-xl" data-market-id={market.id}>
+      <Card className="market-card bg-[#1e293b] card-border-glow hover-scale shadow-lg" data-market-id={market.id}>
         {market.bannerImage && (
           <div className="w-full h-40 overflow-hidden">
             <img 
@@ -88,7 +94,7 @@ export default function MarketCard({ market }: MarketCardProps) {
         )}
         <div className="p-4">
           <div className="flex justify-between items-start mb-3">
-            <h3 className="text-lg font-semibold">{market.name}</h3>
+            <h3 className="text-lg font-bold gradient-text">{market.name}</h3>
             {getStatusBadge(market.status)}
           </div>
           
@@ -120,17 +126,24 @@ export default function MarketCard({ market }: MarketCardProps) {
               </div>
             ) : (
               gameTypes?.map(game => (
-                <span key={game.id} className="px-2 py-1 bg-[#0f172a] text-xs rounded-md">
+                <span 
+                  key={game.id} 
+                  className="px-2 py-1 bg-gradient-to-r from-[#0f172a] to-[#1e293b] text-xs rounded-md border border-[#334155] hover:border-[#94a3b8] transition-colors shadow-sm"
+                >
                   {game.name}
                 </span>
               ))
             )}
           </div>
           <Button 
-            className="w-full py-2 bg-primary hover:bg-primary/90 text-white rounded-md font-medium transition-colors"
+            className={`w-full py-2 text-white rounded-md font-medium transition-all ${
+              market.status === "closed" || market.status === "resulted"
+              ? "bg-gray-600 hover:bg-gray-700"
+              : "bg-gradient-to-r from-primary to-pink-600 hover:shadow-lg hover:shadow-primary/30"
+            }`}
             onClick={() => setShowGameModal(true)}
             disabled={market.status === "closed" || market.status === "resulted"}
-            variant={market.status === "closed" || market.status === "resulted" ? "secondary" : "default"}
+            variant="ghost"
           >
             {market.status === "closed" || market.status === "resulted" ? "Closed" : "Play Now"}
           </Button>

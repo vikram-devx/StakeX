@@ -74,12 +74,12 @@ export default function AuthPage() {
     <div className="min-h-screen bg-[#0f172a] flex flex-col items-center justify-center px-4">
       <div className="max-w-4xl w-full grid md:grid-cols-2 gap-8">
         <div>
-          <Card className="bg-[#1e293b] border-[#334155] text-white">
+          <Card className="bg-[#1e293b] border-[#334155] text-white card-border-glow shadow-xl">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold">
-                <span className="text-primary">S</span>take<span className="text-[#ec4899]">X</span>
+              <CardTitle className="text-3xl font-extrabold">
+                <span className="gradient-text">StakeX</span>
               </CardTitle>
-              <CardDescription className="text-gray-400">
+              <CardDescription className="text-gray-400 text-base">
                 Play Satta Matka and Coin Toss games on our platform
               </CardDescription>
             </CardHeader>
@@ -133,7 +133,7 @@ export default function AuthPage() {
                     <CardFooter>
                       <Button 
                         type="submit" 
-                        className="w-full" 
+                        className="w-full bg-gradient-to-r from-primary to-pink-600 hover:shadow-lg hover:shadow-primary/30 transition-all" 
                         disabled={loginMutation.isPending}
                       >
                         {loginMutation.isPending ? (
@@ -208,7 +208,7 @@ export default function AuthPage() {
                     <CardFooter>
                       <Button 
                         type="submit" 
-                        className="w-full" 
+                        className="w-full bg-gradient-to-r from-primary to-pink-600 hover:shadow-lg hover:shadow-primary/30 transition-all" 
                         disabled={registerMutation.isPending}
                       >
                         {registerMutation.isPending ? (
@@ -225,42 +225,53 @@ export default function AuthPage() {
           </Card>
         </div>
 
-        <div className="hidden md:flex flex-col justify-center text-white">
-          <h1 className="text-4xl font-bold mb-6">
-            <span className="text-primary">Welcome to StakeX</span>
-          </h1>
-          <p className="text-lg text-gray-300 mb-4">
-            Experience the thrill of Satta Matka and Coin Toss games on our secure platform.
-          </p>
-          <ul className="space-y-2 mb-6">
-            <li className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Multiple game markets
-            </li>
-            <li className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Secure wallet system
-            </li>
-            <li className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              Instant payouts
-            </li>
-            <li className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              24/7 customer support
-            </li>
-          </ul>
-          <p className="text-gray-400 text-sm">
-            By creating an account, you agree to our Terms of Service and Privacy Policy.
-          </p>
+        <div className="hidden md:flex flex-col justify-center text-white rounded-lg p-8 relative overflow-hidden card-border-glow">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/80 to-[#1e293b]/90 z-0"></div>
+          <div className="relative z-10">
+            <h1 className="text-5xl font-extrabold mb-6">
+              <span className="gradient-text">Welcome to StakeX</span>
+            </h1>
+            <p className="text-lg text-gray-300 mb-6">
+              Experience the thrill of Satta Matka and Coin Toss games on our secure platform.
+            </p>
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-center group">
+                <span className="flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-r from-primary to-pink-600 text-white mr-3 transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                <span className="text-gray-200 group-hover:text-white transition-colors">Multiple game markets</span>
+              </li>
+              <li className="flex items-center group">
+                <span className="flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-r from-primary to-pink-600 text-white mr-3 transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                <span className="text-gray-200 group-hover:text-white transition-colors">Secure wallet system</span>
+              </li>
+              <li className="flex items-center group">
+                <span className="flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-r from-primary to-pink-600 text-white mr-3 transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                <span className="text-gray-200 group-hover:text-white transition-colors">Instant payouts</span>
+              </li>
+              <li className="flex items-center group">
+                <span className="flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-r from-primary to-pink-600 text-white mr-3 transition-transform group-hover:scale-110">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                <span className="text-gray-200 group-hover:text-white transition-colors">24/7 customer support</span>
+              </li>
+            </ul>
+            <p className="text-gray-400 text-sm">
+              By creating an account, you agree to our Terms of Service and Privacy Policy.
+            </p>
+          </div>
         </div>
       </div>
     </div>
