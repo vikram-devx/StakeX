@@ -584,7 +584,7 @@ export default function AdminPage() {
                     <div className="flex justify-center py-12">
                       <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
-                  ) : markets && markets.length > 0 ? (
+                  ) : standardMarkets && standardMarkets.length > 0 ? (
                     <div className="overflow-x-auto">
                       <Table>
                         <TableHeader className="bg-[#334155]">
@@ -598,7 +598,7 @@ export default function AdminPage() {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {markets.map((market) => (
+                          {standardMarkets.map((market) => (
                             <TableRow key={market.id} className="border-b border-[#334155]">
                               <TableCell className="font-medium">{market.name}</TableCell>
                               <TableCell>{getStatusBadge(market.status)}</TableCell>
