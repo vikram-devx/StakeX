@@ -72,6 +72,23 @@ export default function AdminPage() {
     queryKey: ["/api/markets/all"],
   });
 
+  // Filter markets based on game types
+  const standardMarkets = markets?.filter(market => 
+    !market.gameTypes?.some(gtId => 
+      allGameTypes?.some(gt => 
+        gt.id === gtId && gt.gameCategory === "teamMatch"
+      )
+    )
+  );
+
+  const teamMatchMarkets = markets?.filter(market => 
+    market.gameTypes?.some(gtId => 
+      allGameTypes?.some(gt => 
+        gt.id === gtId && gt.gameCategory === "teamMatch"
+      )
+    )
+  );
+
   const { data: gameTypes, isLoading: gameTypesLoading } = useQuery<GameType[]>({
     queryKey: ["/api/gametypes"],
   });
@@ -284,7 +301,11 @@ export default function AdminPage() {
           <TabsList className="w-full sm:w-auto mb-4 bg-[#334155]">
             <TabsTrigger value="markets" className="text-white data-[state=active]:text-primary">
               <ExternalLink className="mr-2 h-4 w-4" />
-              Markets
+              Market Games
+            </TabsTrigger>
+            <TabsTrigger value="team-matches" className="text-white data-[state=active]:text-primary">
+              <ExternalLink className="mr-2 h-4 w-4" />
+              Team Matches
             </TabsTrigger>
             <TabsTrigger value="bets" className="text-white data-[state=active]:text-primary">
               <Clock className="mr-2 h-4 w-4" />
@@ -296,7 +317,7 @@ export default function AdminPage() {
             </TabsTrigger>
           </TabsList>
           
-          {/* Markets Tab */}
+          {/* Market Games Tab */}
           <TabsContent value="markets">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Create Team Match Form */}
@@ -714,6 +735,82 @@ export default function AdminPage() {
                                       variant="outline" 
                                       onClick={() => handleStatusChange(market.id, "open")}
                                     >
+
+          {/* Team Matches Tab */}
+          <TabsContent value="team-matches">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Create Team Match Form */}
+              <Card className="bg-[#1e293b] border-[#334155] text-white">
+                <CardHeader>
+                  <CardTitle>Create Team Match</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {/* Existing Create Team Match Form */}
+                </CardContent>
+              </Card>
+              
+              {/* Team Matches List */}
+              <Card className="bg-[#1e293b] border-[#334155] text-white md:col-span-2">
+                <CardHeader>
+                  <CardTitle>Manage Team Matches</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {marketsLoading ? (
+                    <div className="flex justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </div>
+                  ) : teamMatchMarkets && teamMatchMarkets.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader className="bg-[#334155]">
+                          <TableRow>
+                            <TableHead className="text-white">Name</TableHead>
+                            <TableHead className="text-white">Status</TableHead>
+                            <TableHead className="text-white">Teams</TableHead>
+                            <TableHead className="text-white">Result</TableHead>
+                            <TableHead className="text-white">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {teamMatchMarkets.map((market) => (
+                            <TableRow key={market.id} className="border-b border-[#334155]">
+                              <TableCell className="font-medium">{market.name}</TableCell>
+                              <TableCell>{getStatusBadge(market.status)}</TableCell>
+                              <TableCell>
+                                {allGameTypes?.filter(gt => 
+                                  gt.gameCategory === "teamMatch" && 
+                                  market.gameTypes?.includes(gt.id)
+                                ).map(gt => (
+                                  <div key={gt.id} className="text-sm">
+                                    {gt.team1} vs {gt.team2}
+                                  </div>
+                                ))}
+                              </TableCell>
+                              <TableCell>
+                                {market.result || 'Not declared'}
+                              </TableCell>
+                              <TableCell>
+                                {/* Existing action buttons */}
+                                <div className="flex space-x-2">
+                                  {/* Same action buttons as markets */}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <p className="text-gray-400">No team matches available.</p>
+                      <p className="text-gray-500 text-sm mt-2">Create your first team match using the form.</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
                                       Open
                                     </Button>
                                   )}
