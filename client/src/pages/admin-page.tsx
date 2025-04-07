@@ -752,6 +752,7 @@ export default function AdminPage() {
                       team2: formData.get('team2') as string,
                       teamLogoUrl1: formData.get('teamLogoUrl1') as string || null,
                       teamLogoUrl2: formData.get('teamLogoUrl2') as string || null,
+                      bannerImage: formData.get('bannerImage') as string || null,
                     };
 
                     createGameTypeMutation.mutate(data);
@@ -789,6 +790,16 @@ export default function AdminPage() {
                         placeholder="e.g. 1.9"
                         className="bg-[#334155] border-[#475569] text-white"
                         required
+                      />
+                    </div>
+
+                    <div className="space-y-2 mb-4">
+                      <Label htmlFor="bannerImage">Banner Image URL (Optional)</Label>
+                      <Input 
+                        id="bannerImage"
+                        name="bannerImage"
+                        placeholder="https://example.com/banner.jpg"
+                        className="bg-[#334155] border-[#475569] text-white"
                       />
                     </div>
 

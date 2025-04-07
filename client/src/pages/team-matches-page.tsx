@@ -47,9 +47,21 @@ export default function TeamMatchesPage() {
           {teamMatches.map(match => (
             <Card key={match.id} className="match-card bg-gradient-to-b from-[#1e293b] to-[#0f172a] border border-[#334155] rounded-md overflow-hidden hover:border-[#94a3b8] transition-colors shadow-lg hover:shadow-xl hover-scale">
               <div className="w-full h-40 overflow-hidden relative">
-                <div className="w-full h-full bg-gradient-to-r from-primary/20 to-pink-600/20 flex items-center justify-center">
-                  <div className="text-2xl font-bold text-white">{match.name}</div>
-                </div>
+                {match.bannerImage ? (
+                  <img 
+                    src={match.bannerImage} 
+                    alt={match.name} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.parentElement?.classList.add('bg-gradient-to-r', 'from-primary/20', 'to-pink-600/20');
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-r from-primary/20 to-pink-600/20 flex items-center justify-center">
+                    <div className="text-2xl font-bold text-white">{match.name}</div>
+                  </div>
+                )}
                 <div className="absolute top-2 right-2">
                   <Badge className="bg-[#22c55e]">Live</Badge>
                 </div>
