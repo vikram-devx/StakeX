@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { cn } from '@/lib/utils';
+import headsImgPath from '@assets/heads.png';
+import tailsImgPath from '@assets/tails.png';
 
 interface ThreeDCoinProps {
   isFlipping: boolean;
@@ -82,55 +84,58 @@ export default function ThreeDCoin({
     scene.add(coin);
     coinRef.current = coin;
     
-    // Create canvas-based text for the coin faces
-    // For heads
-    const headsCanvas = document.createElement('canvas');
-    headsCanvas.width = 128;
-    headsCanvas.height = 128;
-    const headsCtx = headsCanvas.getContext('2d');
-    if (headsCtx) {
-      // Clear canvas for transparency
-      headsCtx.clearRect(0, 0, 128, 128);
-      // Draw a subtle circle as background to make letters stand out
-      headsCtx.fillStyle = 'rgba(139, 69, 19, 0.1)'; // Very transparent brown
-      headsCtx.beginPath();
-      headsCtx.arc(64, 64, 55, 0, Math.PI * 2);
-      headsCtx.fill();
-      // Draw the H
-      headsCtx.fillStyle = '#8B4513'; // Darker brown color for contrast
-      headsCtx.font = 'bold 80px Arial';
-      headsCtx.textAlign = 'center';
-      headsCtx.textBaseline = 'middle';
-      headsCtx.fillText('H', 64, 64);
-    }
+    // Load the one rupee coin images
+    // Create image objects
+    const headsImage = new Image();
+    headsImage.src = headsImgPath;
     
+    const tailsImage = new Image();
+    tailsImage.src = tailsImgPath;
+    
+    // Create textures for heads side
+    const headsCanvas = document.createElement('canvas');
+    headsCanvas.width = 256;
+    headsCanvas.height = 256;
+    const headsCtx = headsCanvas.getContext('2d');
+    
+    // Create textures for tails side
+    const tailsCanvas = document.createElement('canvas');
+    tailsCanvas.width = 256;
+    tailsCanvas.height = 256;
+    const tailsCtx = tailsCanvas.getContext('2d');
+    
+    // Draw images to canvases when they load
+    headsImage.onload = () => {
+      if (headsCtx) {
+        headsCtx.clearRect(0, 0, 256, 256);
+        headsCtx.drawImage(headsImage, 0, 0, 256, 256);
+        
+        // Update the texture to trigger a re-render
+        if (headsTexture) {
+          headsTexture.needsUpdate = true;
+        }
+      }
+    };
+    
+    tailsImage.onload = () => {
+      if (tailsCtx) {
+        tailsCtx.clearRect(0, 0, 256, 256);
+        tailsCtx.drawImage(tailsImage, 0, 0, 256, 256);
+        
+        // Update the texture to trigger a re-render
+        if (tailsTexture) {
+          tailsTexture.needsUpdate = true;
+        }
+      }
+    };
+    
+    // Create initial textures (will be updated when images load)
     const headsTexture = new THREE.CanvasTexture(headsCanvas);
     const headsTextMaterial = new THREE.MeshBasicMaterial({
       map: headsTexture,
       transparent: true,
       alphaTest: 0.1, // Helps with transparency
     });
-    
-    // For tails
-    const tailsCanvas = document.createElement('canvas');
-    tailsCanvas.width = 128;
-    tailsCanvas.height = 128;
-    const tailsCtx = tailsCanvas.getContext('2d');
-    if (tailsCtx) {
-      // Clear canvas for transparency
-      tailsCtx.clearRect(0, 0, 128, 128);
-      // Draw a subtle circle as background to make letters stand out
-      tailsCtx.fillStyle = 'rgba(239, 239, 239, 0.1)'; // Very transparent white
-      tailsCtx.beginPath();
-      tailsCtx.arc(64, 64, 55, 0, Math.PI * 2);
-      tailsCtx.fill();
-      // Draw the T
-      tailsCtx.fillStyle = '#EFEFEF'; // Light color for contrast
-      tailsCtx.font = 'bold 80px Arial';
-      tailsCtx.textAlign = 'center';
-      tailsCtx.textBaseline = 'middle';
-      tailsCtx.fillText('T', 64, 64);
-    }
     
     const tailsTexture = new THREE.CanvasTexture(tailsCanvas);
     const tailsTextMaterial = new THREE.MeshBasicMaterial({
@@ -139,23 +144,23 @@ export default function ThreeDCoin({
       alphaTest: 0.1, // Helps with transparency
     });
     
-    // Create planes for the text labels
-    const textPlaneGeometry = new THREE.PlaneGeometry(0.8, 0.8);
+    // Create planes for the coin images
+    const textPlaneGeometry = new THREE.PlaneGeometry(2.5, 2.5);
     
-    // Heads text
-    const headsTextPlane = new THREE.Mesh(textPlaneGeometry, headsTextMaterial);
-    headsTextPlane.position.set(0, 0.101, 0); // Position slightly above the coin's surface
-    headsTextPlane.rotation.x = -Math.PI / 2; // Align with the coin's face
+    // Heads image plane
+    const headsImagePlane = new THREE.Mesh(textPlaneGeometry, headsTextMaterial);
+    headsImagePlane.position.set(0, 0.101, 0); // Position slightly above the coin's surface
+    headsImagePlane.rotation.x = -Math.PI / 2; // Align with the coin's face
     
-    // Tails text
-    const tailsTextPlane = new THREE.Mesh(textPlaneGeometry, tailsTextMaterial);
-    tailsTextPlane.position.set(0, -0.101, 0); // Position slightly below the coin's surface
-    tailsTextPlane.rotation.x = Math.PI / 2; // Align with the coin's face
-    tailsTextPlane.rotation.z = Math.PI; // Flip text right-side up
+    // Tails image plane
+    const tailsImagePlane = new THREE.Mesh(textPlaneGeometry, tailsTextMaterial);
+    tailsImagePlane.position.set(0, -0.101, 0); // Position slightly below the coin's surface
+    tailsImagePlane.rotation.x = Math.PI / 2; // Align with the coin's face
+    tailsImagePlane.rotation.z = Math.PI; // Flip image right-side up
     
-    // Add text planes to coin
-    coin.add(headsTextPlane);
-    coin.add(tailsTextPlane);
+    // Add image planes to coin
+    coin.add(headsImagePlane);
+    coin.add(tailsImagePlane);
     
     // Set initial rotation so the coin is viewed properly
     coin.rotation.x = Math.PI / 2;
