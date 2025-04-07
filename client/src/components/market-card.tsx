@@ -78,7 +78,7 @@ export default function MarketCard({ market }: MarketCardProps) {
 
   return (
     <>
-      <Card className="market-card bg-[#1e293b] card-border-glow hover-scale shadow-lg" data-market-id={market.id}>
+      <Card className="market-card bg-[#1e293b] border border-[#334155] hover-scale shadow-lg" data-market-id={market.id}>
         {market.bannerImage && (
           <div className="w-full h-40 overflow-hidden">
             <img 

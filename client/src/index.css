@@ -20,24 +20,24 @@
     background-image: linear-gradient(to right, #e11d48, #f43f5e);
   }
   
-  .card-border-glow {
+  .hero-border-glow {
     position: relative;
     overflow: hidden;
     border-radius: 0.5rem;
     z-index: 0;
   }
   
-  .card-border-glow::before {
+  .hero-border-glow::before {
     content: "";
     position: absolute;
     top: -2px;
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #e11d48, #2563eb, #7e22ce, #ec4899);
+    background: linear-gradient(45deg, rgba(225, 29, 72, 0.5), rgba(37, 99, 235, 0.5), rgba(126, 34, 206, 0.5), rgba(236, 72, 153, 0.5));
     background-size: 400% 400%;
     z-index: -1;
-    animation: border-glow 6s ease infinite;
+    animation: border-glow 8s ease infinite;
     border-radius: inherit;
   }
   

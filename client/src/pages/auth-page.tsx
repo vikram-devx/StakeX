@@ -74,7 +74,7 @@ export default function AuthPage() {
     <div className="min-h-screen bg-[#0f172a] flex flex-col items-center justify-center px-4">
       <div className="max-w-4xl w-full grid md:grid-cols-2 gap-8">
         <div>
-          <Card className="bg-[#1e293b] border-[#334155] text-white card-border-glow shadow-xl">
+          <Card className="bg-[#1e293b] border border-[#334155] text-white shadow-lg">
             <CardHeader>
               <CardTitle className="text-3xl font-extrabold">
                 <span className="gradient-text">StakeX</span>
@@ -225,7 +225,7 @@ export default function AuthPage() {
           </Card>
         </div>
 
-        <div className="hidden md:flex flex-col justify-center text-white rounded-lg p-8 relative overflow-hidden card-border-glow">
+        <div className="hidden md:flex flex-col justify-center text-white rounded-lg p-8 relative overflow-hidden hero-border-glow">
           <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/80 to-[#1e293b]/90 z-0"></div>
           <div className="relative z-10">
             <h1 className="text-5xl font-extrabold mb-6">
