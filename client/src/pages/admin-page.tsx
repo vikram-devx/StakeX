@@ -777,7 +777,7 @@ export default function AdminPage() {
                               <TableCell className="font-medium">{market.name}</TableCell>
                               <TableCell>{getStatusBadge(market.status)}</TableCell>
                               <TableCell>
-                                {allGameTypes?.filter(gt => 
+                                {gameTypes?.filter(gt => 
                                   gt.gameCategory === "teamMatch" && 
                                   market.gameTypes?.includes(gt.id)
                                 ).map(gt => (
