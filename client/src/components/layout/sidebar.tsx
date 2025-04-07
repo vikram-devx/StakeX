@@ -173,10 +173,10 @@ export default function Sidebar({ className }: SidebarProps) {
                 active={isActive("/admin")}
               />
               <SidebarNavItem
-                href="/users"
+                href="/admin?tab=users"
                 icon={<Users className="w-5 h-5" />}
-                title="Users"
-                active={isActive("/users")}
+                title="User Management"
+                active={isActive("/admin") && location.search.includes("tab=users")}
               />
               <SidebarNavItem
                 href="/admin/settings"
