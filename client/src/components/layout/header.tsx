@@ -58,16 +58,36 @@ export default function Header() {
                 <Link href="/markets" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">Markets</span>
                 </Link>
+                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="text-white hover:text-primary text-lg block py-2">Home</span>
+                </Link>
+                <Link href="/markets" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="text-white hover:text-primary text-lg block py-2">Markets</span>
+                </Link>
                 <Link href="/my-bets" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">My Bets</span>
                 </Link>
                 <Link href="/results" onClick={() => setMobileMenuOpen(false)}>
                   <span className="text-white hover:text-primary text-lg block py-2">Results</span>
                 </Link>
+                <div className="my-2 border-t border-gray-700" />
+                <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="text-white hover:text-primary text-lg block py-2">Profile</span>
+                </Link>
                 {user?.role === "admin" && (
-                  <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-                    <span className="text-white hover:text-primary text-lg block py-2">Admin</span>
-                  </Link>
+                  <>
+                    <div className="my-2 border-t border-gray-700" />
+                    <span className="text-gray-400 text-sm px-2">Admin</span>
+                    <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
+                      <span className="text-white hover:text-primary text-lg block py-2">Dashboard</span>
+                    </Link>
+                    <Link href="/admin/users" onClick={() => setMobileMenuOpen(false)}>
+                      <span className="text-white hover:text-primary text-lg block py-2">Users</span>
+                    </Link>
+                    <Link href="/admin/settings" onClick={() => setMobileMenuOpen(false)}>
+                      <span className="text-white hover:text-primary text-lg block py-2">Settings</span>
+                    </Link>
+                  </>
                 )}
               </div>
             </SheetContent>
