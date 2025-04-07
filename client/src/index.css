@@ -49,7 +49,7 @@
 @layer components {
   .gradient-text {
     @apply text-transparent bg-clip-text;
-    background-image: linear-gradient(to right, #e11d48, #f43f5e);
+    background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary)/0.8));
   }
   
   .card-title-gradient {
