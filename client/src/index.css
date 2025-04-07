@@ -37,6 +37,13 @@
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--primary) / 0.8);
   }
+
+  /* Calendar and Time input styling */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(50%) sepia(50%) saturate(1000%) hue-rotate(180deg);
+    cursor: pointer;
+  }
 }
 
 @layer components {
