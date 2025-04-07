@@ -61,6 +61,7 @@ export default function AdminPage() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [selectedMarketId, setSelectedMarketId] = useState<number | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if not admin
   if (!user || user.role !== "admin") {
@@ -1108,12 +1109,21 @@ export default function AdminPage() {
                                       <div className="space-y-4">
                                         <div className="space-y-2">
                                           <Label>Current Password</Label>
-                                          <Input 
-                                            type="password"
-                                            defaultValue={user.password}
-                                            disabled
-                                            className="bg-[#334155] border-[#475569] text-white opacity-50"
-                                          />
+                                          <div className="relative">
+                                            <Input 
+                                              type={showPassword ? "text" : "password"}
+                                              defaultValue={user.password}
+                                              disabled
+                                              className="bg-[#334155] border-[#475569] text-white opacity-50 pr-10"
+                                            />
+                                            <button
+                                              type="button"
+                                              onClick={() => setShowPassword(!showPassword)}
+                                              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                                            >
+                                              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                            </button>
+                                          </div>
                                         </div>
                                         <div className="space-y-2">
                                           <Label>New Password</Label>
