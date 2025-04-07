@@ -34,7 +34,7 @@ export default function TeamMatchesPage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-white/90 to-white/70 bg-clip-text text-transparent drop-shadow-sm">Team Matches</h1>
+        <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-white/90 to-white/70 bg-clip-text text-transparent drop-shadow-sm">Team Matches</h1>
         <p className="text-gray-500">Bet on your favorite sports teams and win big!</p>
       </div>
 
