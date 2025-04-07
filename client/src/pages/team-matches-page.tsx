@@ -104,10 +104,7 @@ export default function TeamMatchesPage() {
                 </div>
                 
                 {/* Show teams in banner */}
-                {allGameTypes?.filter(gameType => 
-                  gameType.gameCategory === "teamMatch" && 
-                  (market.gameTypes as unknown as number[]).includes(gameType.id)
-                ).slice(0, 1).map(match => (
+                {teamMatches?.slice(0, 1).map(match => (
                   <div key={match.id} className="absolute bottom-2 left-2 right-2 flex justify-between items-center">
                     <div className="flex items-center px-2 py-1 rounded-lg bg-black/40 backdrop-blur-sm">
                       {match.teamLogoUrl1 && (
