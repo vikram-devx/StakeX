@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, User, History, LogOut } from "lucide-react";
+import { User, History, LogOut } from "lucide-react";
 
 export default function UserMenu() {
   const { user, logoutMutation } = useAuth();
@@ -36,12 +36,11 @@ export default function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center text-white">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-[#ec4899] flex items-center justify-center mr-2">
+        <Button variant="ghost" className="flex items-center text-white p-0 hover:bg-transparent">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-[#ec4899] flex items-center justify-center">
             <span className="text-white font-semibold">{getUserInitials(user.username)}</span>
           </div>
-          <span className="hidden md:block font-medium">{user.username}</span>
-          <ChevronDown className="ml-1 h-4 w-4" />
+          <span className="hidden md:block ml-2 font-medium">{user.username}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-[#334155] text-white border-[#475569]">
