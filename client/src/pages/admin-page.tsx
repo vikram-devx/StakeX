@@ -72,6 +72,10 @@ export default function AdminPage() {
     queryKey: ["/api/markets/all"],
   });
 
+  const { data: gameTypes, isLoading: gameTypesLoading } = useQuery<GameType[]>({
+    queryKey: ["/api/gametypes"],
+  });
+
   // Filter markets based on game types
   const standardMarkets = markets?.filter(market => 
     !market.gameTypes?.some(gtId => 
@@ -88,10 +92,6 @@ export default function AdminPage() {
       )
     )
   );
-
-  const { data: gameTypes, isLoading: gameTypesLoading } = useQuery<GameType[]>({
-    queryKey: ["/api/gametypes"],
-  });
 
   const { data: users, isLoading: usersLoading } = useQuery<User[]>({
     queryKey: ["/api/users"],
