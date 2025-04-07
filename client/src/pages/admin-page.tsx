@@ -333,11 +333,6 @@ export default function AdminPage() {
               <Award className="mr-2 h-4 w-4" />
               Users
             </TabsTrigger>
-            
-            <TabsTrigger value="settings" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
-              <Award className="mr-2 h-4 w-4" />
-              Settings
-            </TabsTrigger>
           </TabsList>
 
           {/* Market Games Tab */}
