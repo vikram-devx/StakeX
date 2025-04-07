@@ -1,5 +1,4 @@
 import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
 import GameTabs from "@/components/game-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { Market } from "@shared/schema";
@@ -39,8 +38,6 @@ export default function MarketsPage() {
           )}
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 }

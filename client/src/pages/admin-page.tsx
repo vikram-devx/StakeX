@@ -3,7 +3,6 @@ import { useAuth } from "@/hooks/use-auth";
 import { Redirect } from "wouter";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Market, GameType, InsertMarket, Bet, User } from "@shared/schema";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -1170,8 +1169,6 @@ export default function AdminPage() {
           </TabsContent>
         </Tabs>
       </main>
-
-      <Footer />
     </div>
   );
 }

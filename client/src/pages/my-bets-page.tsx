@@ -1,5 +1,4 @@
 import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
 import GameTabs from "@/components/game-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { Bet, Market, GameType } from "@shared/schema";
@@ -97,8 +96,6 @@ export default function MyBetsPage() {
           )}
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 }

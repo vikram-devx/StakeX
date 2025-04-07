@@ -9,7 +9,6 @@ import { Loader2 } from "lucide-react";
 import GameTabs from "@/components/game-tabs";
 import TeamMatchModal from "@/components/team-match-modal";
 import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
 
 export default function TeamMatchesPage() {
   const [selectedMatch, setSelectedMatch] = useState<GameType | null>(null);
@@ -123,7 +122,6 @@ export default function TeamMatchesPage() {
           />
         )}
       </main>
-      <Footer />
     </div>
   );
 }
