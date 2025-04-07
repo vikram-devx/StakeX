@@ -852,7 +852,9 @@ export default function AdminPage() {
                     <div className="flex justify-center py-12">
                       <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
-                  ) : teamMatchMarkets && teamMatchMarkets.length > 0 ? (
+                  ) : teamMatchMarkets?.filter(market => 
+                      market.gameTypes?.some(gt => gameTypes?.find(g => g.id === gt)?.gameCategory === 'teamMatch')
+                    ).length > 0 ? (
                     <div className="overflow-x-auto">
                       <Table>
                         <TableHeader className="bg-[#334155]">
