@@ -61,7 +61,7 @@ export default function AdminPage() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [selectedMarketId, setSelectedMarketId] = useState<number | null>(null);
-  
+
   // Redirect if not admin
   if (!user || user.role !== "admin") {
     return <Redirect to="/" />;
@@ -226,13 +226,13 @@ export default function AdminPage() {
     // Combine date and time strings into Date objects
     const openingTime = new Date(`${values.openingDate}T${values.openingTime}`);
     const closingTime = new Date(`${values.closingDate}T${values.closingTime}`);
-    
+
     // Create resultTime if both date and time are provided
     let resultTime = null;
     if (values.resultDate && values.resultTime) {
       resultTime = new Date(`${values.resultDate}T${values.resultTime}`);
     }
-    
+
     createMarketMutation.mutateAsync({
       name: values.name,
       description: values.description || null,
@@ -253,14 +253,14 @@ export default function AdminPage() {
       });
     }
   };
-  
+
   // Get team match game types for a market
   const getTeamMatchGameTypes = (marketId: number) => {
     if (!gameTypes) return [];
-    
+
     const market = markets?.find(m => m.id === marketId);
     if (!market) return [];
-    
+
     const marketGameTypeIds = market.gameTypes as number[];
     return gameTypes.filter(gt => 
       marketGameTypeIds.includes(gt.id) && 
@@ -290,13 +290,13 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#0f172a] text-[#e2e8f0]">
       <Header />
-      
+
       <main className="flex-grow container mx-auto px-4 py-6">
         <div className="mb-6">
           <h1 className="text-2xl font-bold">Admin Dashboard</h1>
           <p className="text-gray-400">Manage markets, games, and view statistics</p>
         </div>
-        
+
         <Tabs defaultValue="markets" className="w-full">
           <TabsList className="w-full sm:w-auto mb-4 bg-[#334155]">
             <TabsTrigger value="markets" className="text-white data-[state=active]:text-primary">
@@ -316,7 +316,7 @@ export default function AdminPage() {
               Users
             </TabsTrigger>
           </TabsList>
-          
+
           {/* Market Games Tab */}
           <TabsContent value="markets">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -339,7 +339,7 @@ export default function AdminPage() {
                       teamLogoUrl1: formData.get('teamLogoUrl1') as string || null,
                       teamLogoUrl2: formData.get('teamLogoUrl2') as string || null,
                     };
-                    
+
                     createGameTypeMutation.mutate(data);
                   }} className="space-y-4">
                     <div className="space-y-2">
@@ -352,7 +352,7 @@ export default function AdminPage() {
                         required
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="description">Description</Label>
                       <Input 
@@ -363,7 +363,7 @@ export default function AdminPage() {
                         required
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="payoutMultiplier">Payout Multiplier</Label>
                       <Input 
@@ -377,7 +377,7 @@ export default function AdminPage() {
                         required
                       />
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="team1">Team 1 Name</Label>
@@ -389,7 +389,7 @@ export default function AdminPage() {
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="team2">Team 2 Name</Label>
                         <Input 
@@ -401,7 +401,7 @@ export default function AdminPage() {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="teamLogoUrl1">Team 1 Logo URL</Label>
@@ -412,7 +412,7 @@ export default function AdminPage() {
                           className="bg-[#334155] border-[#475569] text-white"
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="teamLogoUrl2">Team 2 Logo URL</Label>
                         <Input 
@@ -423,7 +423,7 @@ export default function AdminPage() {
                         />
                       </div>
                     </div>
-                    
+
                     <Button 
                       type="submit"
                       className="w-full bg-gradient-to-r from-primary to-pink-600"
@@ -463,7 +463,7 @@ export default function AdminPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={createMarketForm.control}
                         name="description"
@@ -499,7 +499,7 @@ export default function AdminPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <div className="space-y-4">
                         <h3 className="text-sm font-medium">Opening Time</h3>
                         <div className="grid grid-cols-2 gap-4">
@@ -520,7 +520,7 @@ export default function AdminPage() {
                               </FormItem>
                             )}
                           />
-                          
+
                           <FormField
                             control={createMarketForm.control}
                             name="openingTime"
@@ -540,7 +540,7 @@ export default function AdminPage() {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="space-y-4">
                         <h3 className="text-sm font-medium">Closing Time</h3>
                         <div className="grid grid-cols-2 gap-4">
@@ -561,7 +561,7 @@ export default function AdminPage() {
                               </FormItem>
                             )}
                           />
-                          
+
                           <FormField
                             control={createMarketForm.control}
                             name="closingTime"
@@ -581,7 +581,7 @@ export default function AdminPage() {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="space-y-4">
                         <h3 className="text-sm font-medium">Result Time (Optional)</h3>
                         <div className="grid grid-cols-2 gap-4">
@@ -602,7 +602,7 @@ export default function AdminPage() {
                               </FormItem>
                             )}
                           />
-                          
+
                           <FormField
                             control={createMarketForm.control}
                             name="resultTime"
@@ -622,7 +622,7 @@ export default function AdminPage() {
                           />
                         </div>
                       </div>
-                      
+
                       <FormField
                         control={createMarketForm.control}
                         name="gameTypes"
@@ -675,7 +675,7 @@ export default function AdminPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <Button 
                         type="submit" 
                         className="w-full" 
@@ -691,7 +691,7 @@ export default function AdminPage() {
                   </Form>
                 </CardContent>
               </Card>
-              
+
               {/* Markets List */}
               <Card className="bg-[#1e293b] border-[#334155] text-white md:col-span-2">
                 <CardHeader>
@@ -735,86 +735,10 @@ export default function AdminPage() {
                                       variant="outline" 
                                       onClick={() => handleStatusChange(market.id, "open")}
                                     >
-
-          {/* Team Matches Tab */}
-          <TabsContent value="team-matches">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Create Team Match Form */}
-              <Card className="bg-[#1e293b] border-[#334155] text-white">
-                <CardHeader>
-                  <CardTitle>Create Team Match</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {/* Existing Create Team Match Form */}
-                </CardContent>
-              </Card>
-              
-              {/* Team Matches List */}
-              <Card className="bg-[#1e293b] border-[#334155] text-white md:col-span-2">
-                <CardHeader>
-                  <CardTitle>Manage Team Matches</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {marketsLoading ? (
-                    <div className="flex justify-center py-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    </div>
-                  ) : teamMatchMarkets && teamMatchMarkets.length > 0 ? (
-                    <div className="overflow-x-auto">
-                      <Table>
-                        <TableHeader className="bg-[#334155]">
-                          <TableRow>
-                            <TableHead className="text-white">Name</TableHead>
-                            <TableHead className="text-white">Status</TableHead>
-                            <TableHead className="text-white">Teams</TableHead>
-                            <TableHead className="text-white">Result</TableHead>
-                            <TableHead className="text-white">Actions</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {teamMatchMarkets.map((market) => (
-                            <TableRow key={market.id} className="border-b border-[#334155]">
-                              <TableCell className="font-medium">{market.name}</TableCell>
-                              <TableCell>{getStatusBadge(market.status)}</TableCell>
-                              <TableCell>
-                                {gameTypes?.filter(gt => 
-                                  gt.gameCategory === "teamMatch" && 
-                                  market.gameTypes?.includes(gt.id)
-                                ).map(gt => (
-                                  <div key={gt.id} className="text-sm">
-                                    {gt.team1} vs {gt.team2}
-                                  </div>
-                                ))}
-                              </TableCell>
-                              <TableCell>
-                                {market.result || 'Not declared'}
-                              </TableCell>
-                              <TableCell>
-                                {/* Existing action buttons */}
-                                <div className="flex space-x-2">
-                                  {/* Same action buttons as markets */}
-                                </div>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <p className="text-gray-400">No team matches available.</p>
-                      <p className="text-gray-500 text-sm mt-2">Create your first team match using the form.</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
                                       Open
                                     </Button>
                                   )}
-                                  
+
                                   {market.status === "open" && (
                                     <Button 
                                       size="sm" 
@@ -824,7 +748,7 @@ export default function AdminPage() {
                                       Set Closing Soon
                                     </Button>
                                   )}
-                                  
+
                                   {(market.status === "open" || market.status === "closing_soon") && (
                                     <Button 
                                       size="sm" 
@@ -834,7 +758,7 @@ export default function AdminPage() {
                                       Close
                                     </Button>
                                   )}
-                                  
+
                                   {market.status === "closed" && !market.result && (
                                     <Dialog>
                                       <DialogTrigger asChild>
@@ -905,7 +829,162 @@ export default function AdminPage() {
               </Card>
             </div>
           </TabsContent>
-          
+
+          {/* Team Matches Tab */}
+          <TabsContent value="team-matches">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Create Team Match Form */}
+              <Card className="bg-[#1e293b] border-[#334155] text-white">
+                <CardHeader>
+                  <CardTitle>Create Team Match</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {/* Existing Create Team Match Form */}
+                </CardContent>
+              </Card>
+
+              {/* Team Matches List */}
+              <Card className="bg-[#1e293b] border-[#334155] text-white md:col-span-2">
+                <CardHeader>
+                  <CardTitle>Manage Team Matches</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {marketsLoading ? (
+                    <div className="flex justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </div>
+                  ) : teamMatchMarkets && teamMatchMarkets.length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader className="bg-[#334155]">
+                          <TableRow>
+                            <TableHead className="text-white">Name</TableHead>
+                            <TableHead className="text-white">Status</TableHead>
+                            <TableHead className="text-white">Teams</TableHead>
+                            <TableHead className="text-white">Result</TableHead>
+                            <TableHead className="text-white">Actions</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {teamMatchMarkets.map((market) => (
+                            <TableRow key={market.id} className="border-b border-[#334155]">
+                              <TableCell className="font-medium">{market.name}</TableCell>
+                              <TableCell>{getStatusBadge(market.status)}</TableCell>
+                              <TableCell>
+                                {gameTypes?.filter(gt => 
+                                  gt.gameCategory === "teamMatch" && 
+                                  market.gameTypes?.includes(gt.id)
+                                ).map(gt => (
+                                  <div key={gt.id} className="text-sm">
+                                    {gt.team1} vs {gt.team2}
+                                  </div>
+                                ))}
+                              </TableCell>
+                              <TableCell>
+                                {market.result || 'Not declared'}
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex space-x-2">
+                                  {market.status === "pending" && (
+                                    <Button 
+                                      size="sm" 
+                                      variant="outline" 
+                                      onClick={() => handleStatusChange(market.id, "open")}
+                                    >
+                                      Open
+                                    </Button>
+                                  )}
+
+                                  {market.status === "open" && (
+                                    <Button 
+                                      size="sm" 
+                                      variant="outline" 
+                                      onClick={() => handleStatusChange(market.id, "closing_soon")}
+                                    >
+                                      Set Closing Soon
+                                    </Button>
+                                  )}
+
+                                  {(market.status === "open" || market.status === "closing_soon") && (
+                                    <Button 
+                                      size="sm" 
+                                      variant="outline" 
+                                      onClick={() => handleStatusChange(market.id, "closed")}
+                                    >
+                                      Close
+                                    </Button>                                    )}
+
+                                  {market.status === "closed" && !market.result && (
+                                    <Dialog>
+                                      <DialogTrigger asChild>
+                                        <Button 
+                                          size="sm" 
+                                          onClick={() => setSelectedMarketId(market.id)}
+                                        >
+                                          Declare Result
+                                        </Button>
+                                      </DialogTrigger>
+                                      <DialogContent className="bg-[#1e293b] text-white">
+                                        <DialogHeader>
+                                          <DialogTitle>Declare Result - {market.name}</DialogTitle>
+                                          <DialogDescription className="text-gray-400">
+                                            Enter the final result for this market.
+                                          </DialogDescription>
+                                        </DialogHeader>
+                                        <Form {...declareResultForm}>
+                                          <form onSubmit={declareResultForm.handleSubmit(onDeclareResultSubmit)}>
+                                            <FormField
+                                              control={declareResultForm.control}
+                                              name="result"
+                                              render={({ field }) => (
+                                                <FormItem className="mb-4">
+                                                  <FormLabel>Result</FormLabel>
+                                                  <FormControl>
+                                                    <Input 
+                                                      placeholder="Enter result" 
+                                                      className="bg-[#334155] border-[#475569] text-white" 
+                                                      {...field} 
+                                                    />
+                                                  </FormControl>
+                                                  <FormMessage />
+                                                </FormItem>
+                                              )}
+                                            />
+                                            <DialogFooter>
+                                              <Button 
+                                                type="submit" 
+                                                disabled={declareResultMutation.isPending}
+                                              >
+                                                {declareResultMutation.isPending ? (
+                                                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Declaring...</>
+                                                ) : (
+                                                  "Declare Result"
+                                                )}
+                                              </Button>
+                                            </DialogFooter>
+                                          </form>
+                                        </Form>
+                                      </DialogContent>
+                                    </Dialog>
+                                  )}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <p className="text-gray-400">No team matches available.</p>
+                      <p className="text-gray-500 text-sm mt-2">Create your first team match using the form.</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
           {/* Bets Tab */}
           <TabsContent value="bets">
             <Card className="bg-[#1e293b] border-[#334155] text-white">
@@ -964,7 +1043,7 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           {/* Users Tab */}
           <TabsContent value="users">
             <Card className="bg-[#1e293b] border-[#334155] text-white">
@@ -1015,7 +1094,7 @@ export default function AdminPage() {
           </TabsContent>
         </Tabs>
       </main>
-      
+
       <Footer />
     </div>
   );
