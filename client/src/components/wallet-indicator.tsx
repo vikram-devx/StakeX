@@ -27,9 +27,9 @@ export default function WalletIndicator() {
   }).format(Number(user.balance));
 
   return (
-    <div className="flex items-center bg-[#334155] rounded-full px-3 py-1">
+    <div className="flex items-center mt-1">
       <Wallet className="h-4 w-4 text-[#22c55e] mr-1" />
-      <span className="font-medium text-white">{formattedBalance}</span>
+      <span className="text-sm text-gray-400">{formattedBalance}</span>
     </div>
   );
 }

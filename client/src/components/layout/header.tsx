@@ -45,9 +45,6 @@ export default function Header() {
         </div>
         
         <div className="flex items-center space-x-4">
-          <WalletIndicator />
-          <UserMenu />
-          
           {/* Mobile Menu Button */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">

@@ -98,6 +98,19 @@ export default function Sidebar({ className }: SidebarProps) {
             </h2>
           </a>
         </Link>
+        <div className="mt-4 px-3 py-4 rounded-lg bg-[#0f172a]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-[#ec4899] flex items-center justify-center">
+              <span className="text-white font-semibold">
+                {user.username.substring(0, 2).toUpperCase()}
+              </span>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-white">{user.username}</p>
+              <WalletIndicator />
+            </div>
+          </div>
+        </div>
       </div>
       <ScrollArea className="flex-1 overflow-auto py-2">
         <nav className="grid gap-1 px-2">
