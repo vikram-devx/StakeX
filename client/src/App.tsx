@@ -13,6 +13,7 @@ import ResultsPage from "@/pages/results-page";
 import AdminPage from "@/pages/admin-page";
 import TeamMatchesPage from "@/pages/team-matches-page";
 import TransactionsPage from "@/pages/transactions-page";
+import FundManagementPage from "@/pages/fund-management-page";
 
 function Router() {
   return (
