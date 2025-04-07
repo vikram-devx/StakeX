@@ -10,6 +10,7 @@ import {
   LogOut,
   Users,
   ShieldCheck,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -99,15 +100,33 @@ export default function Sidebar({ className }: SidebarProps) {
           </a>
         </Link>
         <div className="mt-4 px-3 py-4 rounded-lg bg-[#0f172a]">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-[#ec4899] flex items-center justify-center">
-              <span className="text-white font-semibold">
-                {user.username.substring(0, 2).toUpperCase()}
-              </span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-[#ec4899] flex items-center justify-center">
+                <span className="text-white text-lg font-semibold">
+                  {user.username.substring(0, 2).toUpperCase()}
+                </span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-white">{user.username}</p>
+                <p className="text-xs text-gray-400 capitalize">{user.role}</p>
+                <WalletIndicator />
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-white">{user.username}</p>
-              <WalletIndicator />
+            <div className="grid gap-2 pt-2 border-t border-[#1e293b]">
+              <Link href="/profile">
+                <a className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
+                  <User className="h-4 w-4" />
+                  Profile
+                </a>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
             </div>
           </div>
         </div>
