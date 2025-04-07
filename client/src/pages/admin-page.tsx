@@ -75,7 +75,7 @@ export default function AdminPage() {
   // Filter markets based on game types
   const standardMarkets = markets?.filter(market => 
     !market.gameTypes?.some(gtId => 
-      allGameTypes?.some(gt => 
+      gameTypes?.some(gt => 
         gt.id === gtId && gt.gameCategory === "teamMatch"
       )
     )
@@ -83,7 +83,7 @@ export default function AdminPage() {
 
   const teamMatchMarkets = markets?.filter(market => 
     market.gameTypes?.some(gtId => 
-      allGameTypes?.some(gt => 
+      gameTypes?.some(gt => 
         gt.id === gtId && gt.gameCategory === "teamMatch"
       )
     )
