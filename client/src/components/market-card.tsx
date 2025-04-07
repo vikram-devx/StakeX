@@ -78,7 +78,7 @@ export default function MarketCard({ market }: MarketCardProps) {
 
   return (
     <>
-      <Card className="market-card bg-[#1e293b] border border-[#334155] hover-scale shadow-lg" data-market-id={market.id}>
+      <Card className="market-card bg-gradient-to-b from-[#1e293b] to-[#0f172a] border border-[#334155] hover-scale shadow-lg hover:shadow-xl" data-market-id={market.id}>
         {market.bannerImage && (
           <div className="w-full h-40 overflow-hidden">
             <img 
@@ -93,8 +93,8 @@ export default function MarketCard({ market }: MarketCardProps) {
           </div>
         )}
         <div className="p-4">
-          <div className="flex justify-between items-start mb-3">
-            <h3 className="text-lg font-bold gradient-text">{market.name}</h3>
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-xl font-bold card-title-gradient drop-shadow-lg">{market.name}</h3>
             {getStatusBadge(market.status)}
           </div>
           

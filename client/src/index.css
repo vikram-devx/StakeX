@@ -20,6 +20,12 @@
     background-image: linear-gradient(to right, #e11d48, #f43f5e);
   }
   
+  .card-title-gradient {
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(to right, #ffffff, #e2e8f0);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  
   .hero-border-glow {
     position: relative;
     overflow: hidden;
