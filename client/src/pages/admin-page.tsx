@@ -333,14 +333,7 @@ export default function AdminPage() {
               <Award className="mr-2 h-4 w-4" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="funds" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
-              <Award className="mr-2 h-4 w-4" />
-              Fund Requests
-            </TabsTrigger>
-            <TabsTrigger value="risk" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
-              <Award className="mr-2 h-4 w-4" />
-              Risk Management  
-            </TabsTrigger>
+            
             <TabsTrigger value="settings" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
               <Award className="mr-2 h-4 w-4" />
               Settings
