@@ -173,10 +173,10 @@ export default function Sidebar({ className }: SidebarProps) {
                 active={isActive("/admin")}
               />
               <SidebarNavItem
-                href="/admin/users"
+                href="/user-management"
                 icon={<Users className="w-5 h-5" />}
-                title="Users"
-                active={isActive("/admin/users")}
+                title="User Management"
+                active={isActive("/user-management")}
               />
               <SidebarNavItem
                 href="/admin/settings"
