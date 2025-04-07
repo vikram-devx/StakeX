@@ -317,8 +317,11 @@ async function initializeData() {
       
       await storage.createMarket({
         name: "Mumbai Matka",
+        description: "The most popular Matka game in Mumbai with high payouts.",
+        bannerImage: "https://images.unsplash.com/photo-1581273154768-0a9a16887d2a?q=80&w=1000",
         openingTime: now,
         closingTime: closingTime1,
+        resultTime: null,
         createdBy: admin.id,
         gameTypes: sattaGameTypes,
       });
@@ -329,8 +332,11 @@ async function initializeData() {
       
       await storage.createMarket({
         name: "Delhi Matka",
+        description: "Delhi's premier Matka game with multiple betting options.",
+        bannerImage: "https://images.unsplash.com/photo-1594815550232-e615b7a45f98?q=80&w=1000",
         openingTime: now,
         closingTime: closingTime2,
+        resultTime: null,
         createdBy: admin.id,
         gameTypes: sattaGameTypes,
       });
@@ -343,8 +349,11 @@ async function initializeData() {
         
         await storage.createMarket({
           name: "Coin Toss Premier",
+          description: "Simple coin toss game with quick results. Bet on heads or tails!",
+          bannerImage: "https://images.unsplash.com/photo-1575450311950-5b4f69942ac9?q=80&w=1000",
           openingTime: now,
           closingTime: closingTime3,
+          resultTime: null,
           createdBy: admin.id,
           gameTypes: [coinTossGameType.id],
         });

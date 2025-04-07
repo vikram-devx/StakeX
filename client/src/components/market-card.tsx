@@ -73,11 +73,29 @@ export default function MarketCard({ market }: MarketCardProps) {
   return (
     <>
       <Card className="market-card bg-[#1e293b] rounded-lg overflow-hidden shadow-lg transition-transform hover:translate-y-[-2px] hover:shadow-xl" data-market-id={market.id}>
+        {market.bannerImage && (
+          <div className="w-full h-40 overflow-hidden">
+            <img 
+              src={market.bannerImage} 
+              alt={market.name} 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback if image fails to load
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </div>
+        )}
         <div className="p-4">
           <div className="flex justify-between items-start mb-3">
             <h3 className="text-lg font-semibold">{market.name}</h3>
             {getStatusBadge(market.status)}
           </div>
+          
+          {market.description && (
+            <p className="text-sm text-gray-400 mb-3">{market.description}</p>
+          )}
+          
           <div className="flex justify-between text-sm text-gray-400 mb-3">
             <span>
               {market.status === "closed" ? "Opens in:" : "Closes in:"} 

@@ -40,8 +40,14 @@ import { Badge } from "@/components/ui/badge";
 // Schema for creating a new market
 const createMarketSchema = z.object({
   name: z.string().min(3, "Market name must be at least 3 characters"),
-  openingHours: z.coerce.number().min(1, "Opening hours must be at least 1").max(24),
-  closingHours: z.coerce.number().min(1, "Closing hours must be at least 1").max(24),
+  description: z.string().optional(),
+  bannerImage: z.string().optional(),
+  openingDate: z.string(),
+  openingTime: z.string(),
+  closingDate: z.string(),
+  closingTime: z.string(),
+  resultDate: z.string().optional(),
+  resultTime: z.string().optional(),
   gameTypes: z.array(z.number()).min(1, "Select at least one game type")
 });
 
@@ -82,8 +88,14 @@ export default function AdminPage() {
     resolver: zodResolver(createMarketSchema),
     defaultValues: {
       name: "",
-      openingHours: 1,
-      closingHours: 3,
+      description: "",
+      bannerImage: "",
+      openingDate: format(new Date(), 'yyyy-MM-dd'),
+      openingTime: format(new Date(), 'HH:mm'),
+      closingDate: format(addHours(new Date(), 3), 'yyyy-MM-dd'),
+      closingTime: format(addHours(new Date(), 3), 'HH:mm'),
+      resultDate: "",
+      resultTime: "",
       gameTypes: []
     }
   });
@@ -172,14 +184,23 @@ export default function AdminPage() {
 
   // Handlers
   const onCreateMarketSubmit = (values: z.infer<typeof createMarketSchema>) => {
-    const now = new Date();
-    const openingTime = new Date(now);
-    const closingTime = addHours(now, values.closingHours);
+    // Combine date and time strings into Date objects
+    const openingTime = new Date(`${values.openingDate}T${values.openingTime}`);
+    const closingTime = new Date(`${values.closingDate}T${values.closingTime}`);
+    
+    // Create resultTime if both date and time are provided
+    let resultTime = null;
+    if (values.resultDate && values.resultTime) {
+      resultTime = new Date(`${values.resultDate}T${values.resultTime}`);
+    }
     
     createMarketMutation.mutateAsync({
       name: values.name,
+      description: values.description || null,
+      bannerImage: values.bannerImage || null,
       openingTime,
       closingTime,
+      resultTime,
       createdBy: user.id,
       gameTypes: values.gameTypes
     });
@@ -268,46 +289,163 @@ export default function AdminPage() {
                         )}
                       />
                       
-                      <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                          control={createMarketForm.control}
-                          name="openingHours"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Opening (hours)</FormLabel>
-                              <FormControl>
-                                <Input 
-                                  type="number"
-                                  min="1"
-                                  max="24"
-                                  className="bg-[#334155] border-[#475569] text-white" 
-                                  {...field} 
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        
-                        <FormField
-                          control={createMarketForm.control}
-                          name="closingHours"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Duration (hours)</FormLabel>
-                              <FormControl>
-                                <Input 
-                                  type="number"
-                                  min="1"
-                                  max="24"
-                                  className="bg-[#334155] border-[#475569] text-white" 
-                                  {...field} 
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                      <FormField
+                        control={createMarketForm.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Market Description</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter a description" 
+                                className="bg-[#334155] border-[#475569] text-white" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={createMarketForm.control}
+                        name="bannerImage"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Banner Image URL</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="https://example.com/image.jpg" 
+                                className="bg-[#334155] border-[#475569] text-white" 
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-medium">Opening Time</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <FormField
+                            control={createMarketForm.control}
+                            name="openingDate"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Date</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="date"
+                                    className="bg-[#334155] border-[#475569] text-white" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={createMarketForm.control}
+                            name="openingTime"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Time</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="time"
+                                    className="bg-[#334155] border-[#475569] text-white" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-medium">Closing Time</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <FormField
+                            control={createMarketForm.control}
+                            name="closingDate"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Date</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="date"
+                                    className="bg-[#334155] border-[#475569] text-white" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={createMarketForm.control}
+                            name="closingTime"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Time</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="time"
+                                    className="bg-[#334155] border-[#475569] text-white" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-medium">Result Time (Optional)</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                          <FormField
+                            control={createMarketForm.control}
+                            name="resultDate"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Date</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="date"
+                                    className="bg-[#334155] border-[#475569] text-white" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={createMarketForm.control}
+                            name="resultTime"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Time</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="time"
+                                    className="bg-[#334155] border-[#475569] text-white" 
+                                    {...field} 
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
                       </div>
                       
                       <FormField

@@ -23,9 +23,12 @@ export type User = typeof users.$inferSelect;
 export const markets = pgTable("markets", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  description: text("description"),
+  bannerImage: text("banner_image"),
   status: text("status").notNull().default("pending"), // pending, open, closing_soon, closed, resulted
   openingTime: timestamp("opening_time").notNull(),
   closingTime: timestamp("closing_time").notNull(),
+  resultTime: timestamp("result_time"),
   createdBy: integer("created_by").notNull(),
   gameTypes: json("game_types").notNull(), // Array of game type ids
   result: text("result"),
@@ -36,8 +39,11 @@ export const markets = pgTable("markets", {
 export const insertMarketSchema = createInsertSchema(markets)
   .pick({
     name: true,
+    description: true,
+    bannerImage: true,
     openingTime: true,
     closingTime: true,
+    resultTime: true,
     createdBy: true,
     gameTypes: true,
   })
@@ -45,6 +51,10 @@ export const insertMarketSchema = createInsertSchema(markets)
     // Override the timestamp fields to accept strings and convert to dates
     openingTime: z.string().or(z.date()).transform(val => new Date(val)),
     closingTime: z.string().or(z.date()).transform(val => new Date(val)),
+    resultTime: z.string().or(z.date()).nullable().transform(val => val ? new Date(val) : null),
+    // Make optional fields nullable
+    description: z.string().nullable(),
+    bannerImage: z.string().nullable(),
   });
 
 export type InsertMarket = z.infer<typeof insertMarketSchema>;

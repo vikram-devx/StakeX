@@ -75,9 +75,12 @@ export class DatabaseStorage implements IStorage {
       .insert(markets)
       .values({
         name: marketData.name,
+        description: marketData.description,
+        bannerImage: marketData.bannerImage,
         status: "open", // Changed from "pending" to "open" so markets appear in active list immediately
         openingTime: marketData.openingTime,
         closingTime: marketData.closingTime,
+        resultTime: marketData.resultTime,
         createdBy: marketData.createdBy,
         gameTypes: marketData.gameTypes
       })
