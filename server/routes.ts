@@ -250,9 +250,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 async function initializeData() {
   try {
     // Create default game types if they don't exist
-    const gameTypes = await storage.getAllGameTypes();
-    if (gameTypes.length === 0) {
-      // Satta Matka game types
+    const standardGameTypes = await storage.getAllGameTypes();
+    if (standardGameTypes.length === 0) {
+      // Standard market game types only
       await storage.createGameType({
         name: "Jodi",
         description: "Choose a two-digit number (00-99). Win if your number matches the result.",
@@ -281,7 +281,6 @@ async function initializeData() {
         gameCategory: "sattamatka"
       });
 
-      // Coin Toss game type
       await storage.createGameType({
         name: "Heads/Tails",
         description: "Choose either heads or tails. Win if your selection matches the result.",
