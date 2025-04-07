@@ -299,20 +299,20 @@ export default function AdminPage() {
         </div>
 
         <Tabs defaultValue="markets" className="w-full">
-          <TabsList className="w-full sm:w-auto mb-4 bg-gradient-to-r from-[#1e293b] to-[#334155] rounded-lg border border-[#475569]">
-            <TabsTrigger value="markets" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
+          <TabsList className="w-full sm:w-auto mb-4 bg-[#1e293b] rounded-lg border border-[#334155]">
+            <TabsTrigger value="markets" className="text-gray-400 hover:text-white data-[state=active]:bg-[#334155] data-[state=active]:text-white transition-colors">
               <ExternalLink className="mr-2 h-4 w-4" />
               Market Games
             </TabsTrigger>
-            <TabsTrigger value="team-matches" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
+            <TabsTrigger value="team-matches" className="text-gray-400 hover:text-white data-[state=active]:bg-[#334155] data-[state=active]:text-white transition-colors">
               <ExternalLink className="mr-2 h-4 w-4" />
               Team Matches
             </TabsTrigger>
-            <TabsTrigger value="bets" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
+            <TabsTrigger value="bets" className="text-gray-400 hover:text-white data-[state=active]:bg-[#334155] data-[state=active]:text-white transition-colors">
               <Clock className="mr-2 h-4 w-4" />
               Bets
             </TabsTrigger>
-            <TabsTrigger value="users" className="text-gray-400 hover:text-white data-[state=active]:bg-primary/10 data-[state=active]:text-primary transition-colors">
+            <TabsTrigger value="users" className="text-gray-400 hover:text-white data-[state=active]:bg-[#334155] data-[state=active]:text-white transition-colors">
               <Award className="mr-2 h-4 w-4" />
               Users
             </TabsTrigger>
