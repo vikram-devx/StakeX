@@ -1101,13 +1101,32 @@ export default function AdminPage() {
                                           className="bg-[#334155] border-[#475569] text-white"
                                         />
                                       </div>
-                                      <div className="space-y-2">
-                                        <Label>New Password</Label>
-                                        <Input 
-                                          type="password"
-                                          placeholder="Enter new password"
-                                          className="bg-[#334155] border-[#475569] text-white"
-                                        />
+                                      <div className="space-y-4">
+                                        <div className="space-y-2">
+                                          <Label>Current Password</Label>
+                                          <Input 
+                                            type="password"
+                                            defaultValue={user.password}
+                                            disabled
+                                            className="bg-[#334155] border-[#475569] text-white opacity-50"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label>New Password</Label>
+                                          <Input 
+                                            type="password"
+                                            placeholder="Enter new password"
+                                            className="bg-[#334155] border-[#475569] text-white"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label>Confirm New Password</Label>
+                                          <Input 
+                                            type="password"
+                                            placeholder="Confirm new password"
+                                            className="bg-[#334155] border-[#475569] text-white"
+                                          />
+                                        </div>
                                       </div>
                                       <div className="space-y-2">
                                         <Label>Fund Adjustment</Label>
