@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Dialog, 
   DialogContent, 
   DialogHeader, 
-  DialogTitle 
+  DialogTitle,
+  DialogDescription
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,10 +14,14 @@ import { useAuth } from "@/hooks/use-auth";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, RotateCw } from "lucide-react";
 import BetConfirmationModal from "./bet-confirmation-modal";
+import CoinFlipAnimation from "./coin-flip-animation";
+import ThreeDCoin from "./3d-coin";
 import { z } from "zod";
 import { differenceInHours, differenceInMinutes } from "date-fns";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 interface CoinTossModalProps {
   open: boolean;
@@ -32,6 +37,9 @@ export default function CoinTossModal({ open, onClose, market, gameTypes }: Coin
   const [betAmount, setBetAmount] = useState<number>(100);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [placedBet, setPlacedBet] = useState<any>(null);
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [flipResult, setFlipResult] = useState<'heads' | 'tails' | undefined>(undefined);
+  const [useAdvanced3D, setUseAdvanced3D] = useState(true);
 
   const coinTossGameType = gameTypes.find(g => g.gameCategory === "cointoss");
 
@@ -72,17 +80,57 @@ export default function CoinTossModal({ open, onClose, market, gameTypes }: Coin
     }
   };
 
+  // Function to simulate a coin flip
+  const simulateCoinFlip = () => {
+    if (isFlipping) return;
+    
+    // Start animation
+    setIsFlipping(true);
+    setFlipResult(undefined);
+    
+    // Simulate coin flip result after a delay
+    // For demonstration only - in a real app, this would come from the server
+    setTimeout(() => {
+      const result = Math.random() > 0.5 ? 'heads' : 'tails';
+      setFlipResult(result);
+    }, 1000); // This delay is just to simulate server response time
+  };
+  
+  // Handle animation completion
+  const handleAnimationComplete = () => {
+    // Animation is done, show bet confirmation if this was from a placed bet
+    if (placedBet) {
+      setTimeout(() => {
+        setIsFlipping(false);
+        setShowConfirmation(true);
+      }, 1000); // Slight delay to let the user see the final result
+    } else {
+      // Just a test flip, reset after a moment
+      setTimeout(() => {
+        setIsFlipping(false);
+      }, 2000);
+    }
+  };
+
   const placeBetMutation = useMutation({
     mutationFn: async (betData: z.infer<typeof insertBetSchema>) => {
+      // Start the coin flip animation as soon as bet is placed
+      simulateCoinFlip();
+      
       const res = await apiRequest("POST", "/api/bets", betData);
       return await res.json();
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       setPlacedBet(data);
-      setShowConfirmation(true);
+      
+      // The animation completion will be handled by the handleAnimationComplete function
+      // which will show the confirmation modal after animation completes
     },
     onError: (error: Error) => {
+      // Stop the animation if bet fails
+      setIsFlipping(false);
+      
       toast({
         title: "Bet failed",
         description: error.message,
@@ -137,6 +185,10 @@ export default function CoinTossModal({ open, onClose, market, gameTypes }: Coin
             <DialogTitle className="text-xl font-semibold">{market.name}</DialogTitle>
           </DialogHeader>
           
+          <DialogDescription className="text-gray-400 text-sm">
+            Place your bet and watch the coin flip in 3D!
+          </DialogDescription>
+          
           <div className="p-4">
             <div className="flex justify-between items-center mb-4">
               <div>
@@ -147,15 +199,47 @@ export default function CoinTossModal({ open, onClose, market, gameTypes }: Coin
             </div>
             
             {/* Game Instructions */}
-            <div className="mb-6 p-3 bg-[#0f172a] rounded-lg text-sm">
+            <div className="mb-4 p-3 bg-[#0f172a] rounded-lg text-sm">
               <p><strong>Coin Toss:</strong> Select Heads or Tails. Win if your selection matches the result. Payout: 1.9x</p>
             </div>
             
-            {/* Coin Toss UI */}
-            <div className="flex justify-center mb-6">
-              <div className="w-32 h-32 bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full shadow-lg flex items-center justify-center animate-pulse">
-                <span className="text-slate-800 text-2xl font-bold">?</span>
-              </div>
+            {/* 3D Mode Toggle */}
+            <div className="flex items-center justify-end mb-4 space-x-2">
+              <Label htmlFor="3d-mode" className="text-sm text-gray-400">3D Mode</Label>
+              <Switch
+                id="3d-mode"
+                checked={useAdvanced3D}
+                onCheckedChange={setUseAdvanced3D}
+              />
+            </div>
+            
+            {/* Coin Toss Animation */}
+            <div className="flex justify-center mb-8 h-52">
+              {isFlipping || flipResult ? (
+                useAdvanced3D ? (
+                  <ThreeDCoin 
+                    isFlipping={isFlipping} 
+                    result={flipResult}
+                    onAnimationComplete={handleAnimationComplete}
+                    className="scale-110"
+                  />
+                ) : (
+                  <CoinFlipAnimation 
+                    isFlipping={isFlipping} 
+                    result={flipResult}
+                    onAnimationComplete={handleAnimationComplete}
+                  />
+                )
+              ) : (
+                <div className="coin-initial w-40 h-40 bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full shadow-lg flex items-center justify-center relative overflow-hidden cursor-pointer group hover:scale-105 transition-transform duration-200" onClick={simulateCoinFlip}>
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                  <div className="coin-content flex flex-col items-center">
+                    <span className="text-slate-800 text-4xl font-bold mb-1">?</span>
+                    <RotateCw className="w-5 h-5 text-slate-800 animate-spin opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-xs text-slate-800 mt-1 font-medium opacity-0 group-hover:opacity-100 transition-opacity">Test Flip</span>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="grid grid-cols-2 gap-4 mb-6">
