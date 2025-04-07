@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { differenceInHours, differenceInMinutes } from "date-fns";
 import GameModal from "./game-modal";
 import CoinTossModal from "./coin-toss-modal";
+import TeamMatchModal from "./team-match-modal";
 import { Loader2 } from "lucide-react";
 
 interface MarketCardProps {
@@ -74,13 +75,14 @@ export default function MarketCard({ market }: MarketCardProps) {
     return `${hoursRemaining}h ${minutesRemaining}m`;
   };
 
+  const isTeamMatch = gameTypes?.some(game => game.gameCategory === "teamMatch");
   const isCoinToss = gameTypes?.some(game => game.gameCategory === "cointoss");
 
   return (
     <>
       <Card className="market-card bg-gradient-to-b from-[#1e293b] to-[#0f172a] border border-[#334155] hover-scale shadow-lg hover:shadow-xl" data-market-id={market.id}>
         {market.bannerImage && (
-          <div className="w-full h-40 overflow-hidden">
+          <div className="w-full h-40 overflow-hidden relative">
             <img 
               src={market.bannerImage} 
               alt={market.name} 
@@ -90,12 +92,20 @@ export default function MarketCard({ market }: MarketCardProps) {
                 e.currentTarget.style.display = 'none';
               }}
             />
+            <div className="absolute top-2 right-2">
+              {getStatusBadge(market.status)}
+            </div>
+            {!isLoading && isTeamMatch && !market.bannerImage && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-primary/20 to-pink-600/20">
+                <div className="text-2xl font-bold text-white">Team Match</div>
+              </div>
+            )}
           </div>
         )}
         <div className="p-4">
           <div className="flex justify-between items-start mb-4">
             <h3 className="text-xl font-bold card-title-gradient drop-shadow-lg">{market.name}</h3>
-            {getStatusBadge(market.status)}
+            {!market.bannerImage && getStatusBadge(market.status)}
           </div>
           
           {market.description && (
@@ -118,6 +128,44 @@ export default function MarketCard({ market }: MarketCardProps) {
               </span>
             </span>
           </div>
+          
+          {!isLoading && isTeamMatch && gameTypes && (
+            <div className="mb-4">
+              {gameTypes?.filter(g => g.gameCategory === "teamMatch").slice(0, 1).map(game => (
+                <div key={game.id} className="p-2 bg-[#0f172a] rounded-lg border border-[#334155] mb-2">
+                  <div className="text-xs text-gray-400 mb-1">Featured Match:</div>
+                  <div className="flex justify-between items-center">
+                    <div className="flex flex-col items-center text-center flex-1">
+                      {game.teamLogoUrl1 ? (
+                        <div className="w-8 h-8 mb-1">
+                          <img src={game.teamLogoUrl1} alt={game.team1 || ''} className="w-full h-full object-contain" />
+                        </div>
+                      ) : (
+                        <div className="w-8 h-8 mb-1 bg-gray-800 rounded-full flex items-center justify-center">
+                          <span className="text-xs">{game.team1?.substring(0, 2)}</span>
+                        </div>
+                      )}
+                      <div className="text-xs font-medium truncate max-w-[60px]">{game.team1}</div>
+                    </div>
+                    <div className="mx-2 text-xs font-bold">VS</div>
+                    <div className="flex flex-col items-center text-center flex-1">
+                      {game.teamLogoUrl2 ? (
+                        <div className="w-8 h-8 mb-1">
+                          <img src={game.teamLogoUrl2} alt={game.team2 || ''} className="w-full h-full object-contain" />
+                        </div>
+                      ) : (
+                        <div className="w-8 h-8 mb-1 bg-gray-800 rounded-full flex items-center justify-center">
+                          <span className="text-xs">{game.team2?.substring(0, 2)}</span>
+                        </div>
+                      )}
+                      <div className="text-xs font-medium truncate max-w-[60px]">{game.team2}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          
           <div className="flex flex-wrap gap-1 mb-3">
             {isLoading ? (
               <div className="flex items-center">
@@ -135,6 +183,14 @@ export default function MarketCard({ market }: MarketCardProps) {
               ))
             )}
           </div>
+          
+          {market.status === "resulted" && market.result && (
+            <div className="p-2 bg-[#101c2d] rounded-md border border-[#334155] mb-3">
+              <div className="text-xs text-gray-400 mb-1">Result:</div>
+              <div className="text-sm font-semibold text-white">{market.result}</div>
+            </div>
+          )}
+          
           <Button 
             className={`w-full py-2 text-white rounded-md font-medium transition-all ${
               market.status === "closed" || market.status === "resulted"
@@ -150,7 +206,14 @@ export default function MarketCard({ market }: MarketCardProps) {
         </div>
       </Card>
 
-      {showGameModal && isCoinToss ? (
+      {showGameModal && isTeamMatch ? (
+        <TeamMatchModal 
+          open={showGameModal} 
+          onClose={() => setShowGameModal(false)} 
+          market={market}
+          gameTypes={gameTypes?.filter(g => g.gameCategory === "teamMatch") || []}
+        />
+      ) : showGameModal && isCoinToss ? (
         <CoinTossModal 
           open={showGameModal} 
           onClose={() => setShowGameModal(false)} 

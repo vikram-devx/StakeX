@@ -155,7 +155,11 @@ export class DatabaseStorage implements IStorage {
         name: gameTypeData.name,
         description: gameTypeData.description,
         payoutMultiplier: gameTypeData.payoutMultiplier,
-        gameCategory: gameTypeData.gameCategory
+        gameCategory: gameTypeData.gameCategory,
+        team1: gameTypeData.team1 || null,
+        team2: gameTypeData.team2 || null,
+        teamLogoUrl1: gameTypeData.teamLogoUrl1 || null,
+        teamLogoUrl2: gameTypeData.teamLogoUrl2 || null
       })
       .returning();
     return gameType;
@@ -312,6 +316,11 @@ export class DatabaseStorage implements IStorage {
               isWinner = (bet.selection === "odd" && isOdd) || (bet.selection === "even" && !isOdd);
               break;
           }
+          break;
+          
+        case "teamMatch":
+          // For team matches, the result is either "team1" or "team2"
+          isWinner = bet.selection === result;
           break;
       }
       

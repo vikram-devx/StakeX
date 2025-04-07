@@ -57,10 +57,45 @@ export default function BetConfirmationModal({ open, onClose, bet, onConfirm }: 
               <span>Game:</span>
               <span className="font-medium">{gameType?.name || `Game #${bet.gameTypeId}`}</span>
             </div>
-            <div className="flex justify-between text-sm mb-2">
+            <div className="flex justify-between items-center text-sm mb-2">
               <span>Selected:</span>
-              <span className="font-medium">{bet.selection}</span>
+              <span className={`font-medium px-2 py-1 rounded-md ${
+                gameType?.gameCategory === "teamMatch" 
+                  ? "bg-primary/20 text-primary"
+                  : ""
+              }`}>{bet.selection}</span>
             </div>
+            
+            {/* Show team match details if applicable */}
+            {gameType?.gameCategory === "teamMatch" && (
+              <div className="mt-3 p-2 bg-[#111827] rounded-md">
+                <div className="flex justify-between items-center">
+                  <div className="flex-1 text-center">
+                    {gameType.teamLogoUrl1 && bet.selection === gameType.team1 ? (
+                      <div className="w-10 h-10 mx-auto mb-1">
+                        <img src={gameType.teamLogoUrl1} alt={gameType.team1 || ''} className="w-full h-full object-contain" />
+                      </div>
+                    ) : null}
+                    <div className={`text-sm ${bet.selection === gameType.team1 ? "text-primary font-medium" : "text-gray-400"}`}>
+                      {gameType.team1}
+                    </div>
+                  </div>
+                  
+                  <div className="text-sm font-bold text-gray-500 px-3">VS</div>
+                  
+                  <div className="flex-1 text-center">
+                    {gameType.teamLogoUrl2 && bet.selection === gameType.team2 ? (
+                      <div className="w-10 h-10 mx-auto mb-1">
+                        <img src={gameType.teamLogoUrl2} alt={gameType.team2 || ''} className="w-full h-full object-contain" />
+                      </div>
+                    ) : null}
+                    <div className={`text-sm ${bet.selection === gameType.team2 ? "text-primary font-medium" : "text-gray-400"}`}>
+                      {gameType.team2}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="flex justify-between text-sm mb-2">
               <span>Bet Amount:</span>
               <span className="font-medium">₹{Number(bet.betAmount).toFixed(2)}</span>
@@ -75,13 +110,13 @@ export default function BetConfirmationModal({ open, onClose, bet, onConfirm }: 
         <DialogFooter className="flex space-x-3 sm:space-x-0">
           <Button 
             variant="outline"
-            className="flex-1"
+            className="flex-1 border-[#334155] text-white hover:bg-[#334155] hover:text-white"
             onClick={viewMyBets}
           >
             View My Bets
           </Button>
           <Button 
-            className="flex-1"
+            className="flex-1 bg-gradient-to-r from-primary to-pink-600 hover:shadow-lg hover:shadow-primary/30"
             onClick={() => {
               if (onConfirm) {
                 onConfirm();

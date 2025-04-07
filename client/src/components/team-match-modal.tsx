@@ -224,7 +224,7 @@ export default function TeamMatchModal({ open, onClose, market, gameTypes }: Tea
                           className="flex space-x-1"
                         >
                           <div className="grid grid-cols-2 gap-2 w-full">
-                            <Card className={`p-3 cursor-pointer hover:bg-[#111827] transition-colors ${field.value === selectedGameType.team1 ? "bg-[#111827] border-primary" : "bg-[#1a2436] border-[#334155]"}`}>
+                            <Card className={`p-3 cursor-pointer hover:bg-[#111827] transition-colors ${field.value === selectedGameType.team1 ? "bg-[#111827] border-primary ring-2 ring-primary/70 shadow-md shadow-primary/30" : "bg-[#1a2436] border-[#334155]"}`}>
                               <RadioGroupItem
                                 value={selectedGameType.team1 as string}
                                 id={`team1-${selectedGameType.id}`}
@@ -234,16 +234,24 @@ export default function TeamMatchModal({ open, onClose, market, gameTypes }: Tea
                                 htmlFor={`team1-${selectedGameType.id}`}
                                 className="flex flex-col items-center justify-center cursor-pointer"
                               >
+                                {field.value === selectedGameType.team1 && (
+                                  <div className="absolute top-2 right-2 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+                                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                                  </div>
+                                )}
                                 {selectedGameType.teamLogoUrl1 ? (
-                                  <div className="w-10 h-10 mb-2">
+                                  <div className="w-14 h-14 mb-2">
                                     <img src={selectedGameType.teamLogoUrl1} alt={selectedGameType.team1 || ''} className="w-full h-full object-contain" />
                                   </div>
                                 ) : null}
                                 <div className="font-medium text-center">{selectedGameType.team1}</div>
+                                {field.value === selectedGameType.team1 && (
+                                  <div className="mt-1 text-xs font-medium text-primary">Selected</div>
+                                )}
                               </label>
                             </Card>
 
-                            <Card className={`p-3 cursor-pointer hover:bg-[#111827] transition-colors ${field.value === selectedGameType.team2 ? "bg-[#111827] border-primary" : "bg-[#1a2436] border-[#334155]"}`}>
+                            <Card className={`p-3 cursor-pointer hover:bg-[#111827] transition-colors ${field.value === selectedGameType.team2 ? "bg-[#111827] border-primary ring-2 ring-primary/70 shadow-md shadow-primary/30" : "bg-[#1a2436] border-[#334155]"}`}>
                               <RadioGroupItem
                                 value={selectedGameType.team2 as string}
                                 id={`team2-${selectedGameType.id}`}
@@ -253,12 +261,20 @@ export default function TeamMatchModal({ open, onClose, market, gameTypes }: Tea
                                 htmlFor={`team2-${selectedGameType.id}`}
                                 className="flex flex-col items-center justify-center cursor-pointer"
                               >
+                                {field.value === selectedGameType.team2 && (
+                                  <div className="absolute top-2 right-2 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+                                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                                  </div>
+                                )}
                                 {selectedGameType.teamLogoUrl2 ? (
-                                  <div className="w-10 h-10 mb-2">
+                                  <div className="w-14 h-14 mb-2">
                                     <img src={selectedGameType.teamLogoUrl2} alt={selectedGameType.team2 || ''} className="w-full h-full object-contain" />
                                   </div>
                                 ) : null}
                                 <div className="font-medium text-center">{selectedGameType.team2}</div>
+                                {field.value === selectedGameType.team2 && (
+                                  <div className="mt-1 text-xs font-medium text-primary">Selected</div>
+                                )}
                               </label>
                             </Card>
                           </div>
